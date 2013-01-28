@@ -5,15 +5,45 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
-  
- <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
- <script type="text/javascript" src="js/crafty.js"></script>
- 
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/bubble.css" rel="stylesheet">
+      
 </head>
 <body>
- 	<input type="button" value="spin" onclick="spin();" style="float:left;" />
-	<canvas id="canvas" width="1000" height="1000"></canvas>	
+  
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+          <a href="./index.html" class="brand">CeeNee</a>          
+      </div>      
+    </div>    
+  </div>
+    
+  <div class="container">      
+    <div id="playboard">        
+        <button class="btn btn-large" id="spin">Play</button>
+        <canvas id="wheel" width="1000" height="1000"></canvas>  
+        <span id="score"></span>
+    </div>
+    <div class="preloader">
+      <img src="assets/img/gift/1.png" />
+      <img src="assets/img/gift/2.png" />
+      <img src="assets/img/gift/3.png" />
+      <img src="assets/img/gift/4.png" />
+      <img src="assets/img/gift/5.png" />
+      <img src="assets/img/gift/6.png" />
+      <img src="assets/img/gift/7.png" />
+      <img src="assets/img/gift/8.png" />
+      <img src="assets/img/gift/9.png" />
+      <img src="assets/img/gift/10.png" />
+      <img src="assets/img/gift/11.png" />
+      <img src="assets/img/gift/12.png" />
+    </div>    
+  </div>
+  
+  <script data-main="scripts/main" src="scripts/require.js"></script>
 
- <script type="text/javascript" src="js/app.js"></script> 
 </body>
 </html>

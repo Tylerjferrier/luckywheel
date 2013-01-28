@@ -1,0 +1,69 @@
+body {
+  padding-top: 60px;
+}
+#wheel {
+  background: url("../img/wheel.png") no-repeat;
+  width: 854px;
+  height: 854px;
+  /*
+    -webkit-transition: all 2s ease-in-out; 
+    -moz-transition: all 2s ease-in-out; 
+    -o-transition: all 2s ease-in-out; 
+    -ms-transition: all 2s ease-in-out; 
+    transition: all 2s ease-in-out;*/
+
+}
+/*
+a.brand {
+    text-indent: -9999px;
+    display: block;
+    background: url("assets/img/logo.png") top left no-repeat;
+    width: 1024px;
+    height: 512px;
+}
+*/
+#playboard {
+  position: absolute;
+  width: 1000px;
+}
+#playboard #wheel {
+  width: 1000px;
+  height: 1000px;
+}
+#playboard #spin {
+  position: absolute;
+  width: 128px;
+  height: 152px;
+  top: 424px;
+  left: 436px;
+  background: url("../img/spin.png") top left no-repeat;
+  text-indent: -9999px;
+  border: 0 none;
+  -webkit-transition: all 2s ease-in-out;
+  -moz-transition: all 2s ease-in-out;
+  -o-transition: all 2s ease-in-out;
+  -ms-transition: all 2s ease-in-out;
+  transition: all 2s ease-in-out;
+}
+#playboard #spin:hover {
+  /*background-image: url("../img/spin.png"), linear-gradient(to bottom right,rgb(255,0,0),rgb(100,0,0) 50%,rgb(50,0,0) 75%,rgb(150,0,0));
+    */
+
+  transform: rotate(30deg);
+}
+.preloader {
+  display: none;
+  background: url("../img/gift/1.png");
+  background: url("../img/gift/2.png");
+  background: url("../img/gift/3.png");
+  background: url("../img/gift/4.png");
+  background: url("../img/gift/5.png");
+  background: url("../img/gift/6.png");
+  background: url("../img/gift/7.png");
+  background: url("../img/gift/8.png");
+  background: url("../img/gift/9.png");
+  background: url("../img/gift/10.png");
+  background: url("../img/gift/11.png");
+  background: url("../img/gift/12.png");
+  background: none;
+}
