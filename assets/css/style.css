@@ -32,13 +32,14 @@ a.brand {
 }
 #playboard #spin {
   position: absolute;
-  width: 128px;
-  height: 152px;
-  top: 424px;
-  left: 436px;
+  width: 268px;
+  height: 268px;
+  top: 366px;
+  left: 366px;
   background: url("../img/spin.png") top left no-repeat;
   text-indent: -9999px;
   border: 0 none;
+  box-shadow: none;
   -webkit-transition: all 2s ease-in-out;
   -moz-transition: all 2s ease-in-out;
   -o-transition: all 2s ease-in-out;
@@ -50,6 +51,20 @@ a.brand {
     */
 
   transform: rotate(30deg);
+}
+#playboard #mc {
+  background: red;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
+#playboard #arrow {
+  background: url(../img/arrow.png);
+  position: absolute;
+  top: 325px;
+  left: 467.5px;
+  width: 65px;
+  height: 90px;
 }
 .preloader {
   display: none;

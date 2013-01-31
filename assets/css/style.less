@@ -1,8 +1,19 @@
 @board-width: 1000px;
 @board-height: 1000px;
 
-@spin-width: 128px;
-@spin-height: 152px;
+@spin-width: 268px;
+@spin-height: 268px;
+
+@arrow-width: 65px;
+@arrow-height: 90px;
+
+.abs-elem(@t:0, @l:0, @w:0, @h:0) {
+  position: absolute;
+  top: @t;
+  left: @l;
+  width: @w;
+  height: @h;
+}
 
 body {
     padding-top: 60px;
@@ -49,6 +60,7 @@ a.brand {
     background: url("../img/spin.png") top left no-repeat;
     text-indent: -9999px;
     border: 0 none;
+    box-shadow: none;
 
     -webkit-transition: all 2s ease-in-out; 
     -moz-transition: all 2s ease-in-out; 
@@ -64,7 +76,15 @@ a.brand {
   }
 
   #mc {
-    
+    background: red;
+    width: 5px;
+    height: 5px;
+    position: absolute;
+  }
+
+  #arrow {
+    background: url(../img/arrow.png);    
+    .abs-elem(325px, @board-width/2 - @arrow-width/2, @arrow-width, @arrow-height);
   }
 }
 
@@ -84,3 +104,4 @@ a.brand {
   background:url("../img/gift/12.png");
   background:none;
 }
+

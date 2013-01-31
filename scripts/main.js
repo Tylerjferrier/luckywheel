@@ -1,6 +1,7 @@
 //Set the require.js configuration for your application.
+
 require.config({
-    baseUrl: "./scripts"
+    baseUrl: "./scripts-0.1"
     
     // Libraries
     ,paths: {
@@ -30,17 +31,20 @@ require.config({
             deps: [
                 'jquery'
             ]
+             //,"exports": "transform"
         },
 
         'buzz': {
             exports: 'buzz'
+        }
+
+        ,worker: {
+            exports : 'worker'
         } 
     }
 
 })
-
-// Load our app module and pass it to our definition function
-require(['app'], function (app) {
-    console.log('App Loaded. Run now');
+// // Load our app module and pass it to our definition function
+require(['app', 'transform'], function (app) {
     app.init();
 })
