@@ -11,7 +11,8 @@ require.config({
         text: 'text',
         i18n: 'i18n',
         transform: 'jquery.transform',
-        buzz: 'buzz'        
+        buzz: 'buzz',
+        parse: '//parsecdn.com/js/parse-1.2.0.min.js'        
     }
 
     ,shim: {
@@ -40,6 +41,10 @@ require.config({
 
         ,worker: {
             exports : 'worker'
+        },
+
+        'parse': {            
+            exports: 'parse'
         } 
     }
 

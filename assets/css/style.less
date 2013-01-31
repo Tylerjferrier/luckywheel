@@ -67,12 +67,22 @@ a.brand {
     -o-transition: all 2s ease-in-out; 
     -ms-transition: all 2s ease-in-out; 
     transition: all 2s ease-in-out;
+     z-index: 20;
   }
 
-  #spin:hover {
+  #arrow {
+    -webkit-transition: all 1s ease-in-out; 
+    -moz-transition: all 1s ease-in-out; 
+    -o-transition: all 1s ease-in-out; 
+    -ms-transition: all 1s ease-in-out; 
+    transition: all 1s ease-in-out;
+    z-index: 2;
+  }
+
+  #spin:hover + #arrow{
     /*background-image: url("../img/spin.png"), linear-gradient(to bottom right,rgb(255,0,0),rgb(100,0,0) 50%,rgb(50,0,0) 75%,rgb(150,0,0));
     */
-    transform: rotate(30deg);      
+    transform: rotate(5deg);          
   }
 
   #mc {

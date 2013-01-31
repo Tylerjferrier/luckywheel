@@ -23,9 +23,8 @@
     
   <div class="container">      
     <div id="playboard">        
-        <div class="btn btn-large" id="spin">
-          <span id="arrow"></span>
-        </div>
+        <div class="btn btn-large" id="spin"></div>
+        <span id="arrow"></span>
         <canvas id="wheel" width="1000" height="1000"></canvas>  
         <span id="score"></span>
         <div id="mc"></div>
@@ -47,7 +46,20 @@
     </div>    
   </div>
   
-  <script data-main="scripts/main" src="scripts/require.js"></script>
+  <div id="reward-stock-cp"></div>
+    
+  <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
+  
+  <script type="text/template">
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>            
+    </tr>
+  </script>
 
 </body>
 </html>
