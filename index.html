@@ -22,27 +22,17 @@
   </div>  
 
   <div class="container">      
-    <div id="playboard">        
+    <div id="playboard">   
+        <div id="result-board"></div>     
         <div class="btn btn-large" id="spin"></div>
         <span id="arrow"></span>
         <canvas id="wheel" width="1000" height="1000"></canvas>  
         <span id="score"></span>
         <div id="mc"></div>
+
     </div>
-    <div class="preloader">
-      <img src="assets/img/gift/1.png" />
-      <img src="assets/img/gift/2.png" />
-      <img src="assets/img/gift/3.png" />
-      <img src="assets/img/gift/4.png" />
-      <img src="assets/img/gift/5.png" />
-      <img src="assets/img/gift/6.png" />
-      <img src="assets/img/gift/7.png" />
-      <img src="assets/img/gift/8.png" />
-      <img src="assets/img/gift/9.png" />
-      <img src="assets/img/gift/10.png" />
-      <img src="assets/img/gift/11.png" />
-      <img src="assets/img/gift/12.png" />
-      <img src="assets/img/board.png" />
+    <div class="preloader">      
+      <img src="assets/img/wheel.png" />      
     </div>    
   </div>
   
@@ -59,6 +49,13 @@
       <td>
       </td>            
     </tr>
+  </script>
+
+  <script type="text/template" id="tpl-result-board">
+    <img src="<% src %>" />
+    <p>
+      Congratulation, you won 1 <% item %>
+    </p>
   </script>
 
 </body>

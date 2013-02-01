@@ -2,7 +2,7 @@ body {
   padding-top: 60px;
 }
 #wheel {
-  /*background: url("../img/wheel.png") no-repeat;*/
+  background: url("../img/wheel.png") no-repeat;
   width: 854px;
   height: 854px;
   /*
@@ -74,6 +74,14 @@ a.brand {
   left: 467.5px;
   width: 65px;
   height: 90px;
+}
+#playboard #result-board {
+  background: red;
+  display: none;
+  position: absolute;
+  z-index: 9999;
+  width: 100px;
+  height: 2000px;
 }
 .preloader {
   display: none;

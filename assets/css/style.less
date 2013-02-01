@@ -96,6 +96,15 @@ a.brand {
     background: url(../img/arrow.png);    
     .abs-elem(325px, @board-width/2 - @arrow-width/2, @arrow-width, @arrow-height);
   }
+
+  #result-board {
+    background: red;
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    width: 100px;
+    height: 2000px; 
+  }
 }
 
 .preloader {
