@@ -61,7 +61,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
-
+      
         this.sound = new buzz.sound("resources/audio/spin", {
             formats: ["wav"],
             preload: true,
