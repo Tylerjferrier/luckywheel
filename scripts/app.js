@@ -1,7 +1,7 @@
 /*
 So we need to draw six times. Each time we draw two arc
 */
-define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Backbone, buzz, Parse) {
+define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, buzz) {
   "use strict"
   console.log('Check if loaded')
   console.log($)
@@ -9,7 +9,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
   console.log(Backbone)
   console.log(buzz)
 
-  Parse.initialize("rJBiku5BRJwE4BKaKhspW5R61OLT8d19KxsojnFM", "SWiZlZ8Pw28Gv7yj632JKQGlEHcHszQI2w8dDtgU")
+  //Parse.initialize("1zzAMVXIJK6AZoxdKetSHXhXS7IVEJxOb5Vh1dqF", "VqN2jIE1EZTZ3EzHS9NLT71i4oSKI9JeEtYek3Yz");
 
   var Roulette = function () {
     this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
@@ -41,7 +41,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
       "assets/img/gift/12.png"
     ]    
     
-    this.drawInterval = 30; //redraw each this amount of ms 
+    this.drawInterval = 60; //redraw each this amount of ms 
     this.startAngle = 0;
     this.arc = Math.PI / 6;
     this.spinTimeout = null;
@@ -83,7 +83,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
        
-    var angle = this.startAngle + 0 * this.arc;
+    var angle = this.startAngle + 0 * this.arc //in radian
     ctx.save()
     ctx.translate(canvas.width/2, canvas.height/2)
     ctx.rotate(angle + this.arc / 2 + Math.PI / 2)
@@ -175,7 +175,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
   };
 
   Roulette.prototype.spin = function() {
-    this.spinAngleStart = Math.random() * 10 + 10;
+    this.spinAngleStart = Math.random() * 10 + 10 //in degree
+
+    console.log(this.spinAngleStart)
     this.spinTime = 0;
     this.spinTimeTotal = Math.random() * 3 + 4 * 1000;
     this.rotateWheel()
@@ -190,7 +192,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
     }
     var s=this
         ,spinAngle = this.spinAngleStart - this.easeOut(this.spinTime, 0, this.spinAngleStart, this.spinTimeTotal)
-    this.startAngle += (spinAngle * Math.PI / 180)
+    this.startAngle += (spinAngle * Math.PI / 180) //convert to rad
+    console.log("Current Angle to srar draw" + this.startAngle)
     this.draw()
     this.spinTimeout = setTimeout((function () {    
       s.rotateWheel.call(s)
@@ -208,6 +211,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
     if (_.contains(this.congratItems, index)) {
       this.startAngle += (this.arc * 180) / Math.PI    
     }
+    console.log(this.startAngle + ". In degree = 0" + (this.startAngle * 180 / Math.PI))
+    console.log(this.spinAngleStart +" is spin angle start in degree")
 
     this.ctx.save();
     this.ctx.font = 'bold 30px Helvetica, Arial';
@@ -218,9 +223,15 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
   }
 
   Roulette.prototype.easeOut = function(t, b, c, d) {
+    
     var ts = (t/=d)*t;
     var tc = ts*t;
+    console.log(b+c*(tc + -3*ts + 3*t))
     return b+c*(tc + -3*ts + 3*t);
+
+    // t /= d;
+    // t--;
+    // return c*(t*t*t + 1) + b;
   }
 
   Roulette.prototype.preventLucky = function () {
@@ -299,7 +310,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'parse'], function ($, _, Ba
     console.log("Called back by the worker!\nHere is the mesage that worker sent: " + event.data);
 
   }
-  worker.postMessages{cmd: 'sync', args: [], Date.now(), msg: "Trying to sync database"}
+  //worker.postMessages{cmd: 'sync', args: [], Date.now(), msg: "Trying to sync database"}
 
   return {
     init: function() {
