@@ -2,16 +2,21 @@
 So we need to draw six times. Each time we draw two arc
 */
 define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, buzz) {
-  "use strict"
-  console.log('Check if loaded')
-  console.log($)
-  console.log(_)
-  console.log(Backbone)
-  console.log(buzz)
+  console.log('Check if loaded');
+  console.log($);
+  console.log(_);
+  console.log(Backbone);
+  console.log(buzz);
+  
+  var wantedSlot;  
+  var wantedAngle;
+  var spinId = 0;
 
   //Parse.initialize("1zzAMVXIJK6AZoxdKetSHXhXS7IVEJxOb5Vh1dqF", "VqN2jIE1EZTZ3EzHS9NLT71i4oSKI9JeEtYek3Yz");
 
   var Roulette = function () {
+    this.constant = 100-((Math.pow(100,4)/4-1/4)/(Math.pow(100,3))-3*(Math.pow(100,3)/3-1/3)/(Math.pow(100,2))+3*(Math.pow(100,2)/2-1/2)/(100))
+    console.log(this.constant)
     this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
                "#2E2C75", "#673A7E", "#CC0071", "#F80120",
                "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"]
@@ -19,12 +24,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
                "#F891A4", "#DDDDB5", "#77EBEF", "#F9D6F4",
                "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
                            
-    this.awards = ["eeTee", "one", "Gluck",  "cutee"
-                    ,"year", "minoplus", "welldone", "beegee",
-                    , "more", "hapy", "mini", "sorry"]
-    
-    this.congratItems = [0, 2, 4, 6, 8]
-                     
+    this.awards = ["CeeNee", "Pen", "GoodLuck", "CuTee",
+                     "Body", "MiniPlus", "Calendar", "BeeGee",
+                     "Queen", "HungPhat", "Mini", "Sorry"];
+    this.percent = [10,75,10,5,10,1,20,0.1,10,10,2,100]        //just to show                 
+    this.amount = [50,500,2,5,3,1,20,1,3,2,2,10000]                 
     this.avatars = [ 
       "assets/img/gift/1.png",
       "assets/img/gift/1.png",
@@ -43,12 +47,14 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
     
     this.drawInterval = 60; //redraw each this amount of ms 
     this.startAngle = 0;
+    this.totalAngle = 0;
     this.arc = Math.PI / 6;
     this.spinTimeout = null;
 
     this.spinArcStart = 10;
     this.spinTime = 0;
     this.spinTimeTotal = 0;
+    this.count = 0;
 
     this.wheelRadius = 500;
     this.canvas = document.getElementById("wheel");
@@ -175,26 +181,56 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
   };
 
   Roulette.prototype.spin = function() {
-    this.spinAngleStart = Math.random() * 10 + 10 //in degree
+    spinId +=1;
+    // this.spinAngleStart = Math.random() * 10 + 10;
+    var randomProb = Math.random()*100;
+    if (randomProb < 0.1) wantedSlot = 2                     //BeeGee 0.1%
+      else if (randomProb < 1) wantedSlot = 4                //MiniPlus 1%
+      else if (randomProb < 2) wantedSlot = 11               //Mini 2%
+      else if (randomProb < 5) wantedSlot = 6                //CuTee 5%
+      else if (randomProb < 10){                             //10% chance for CeeNee, GoodLuck, Body, Queen and HungPhat
+          var five = Math.random()*4 + 1
+          if (Math.floor(five) === 1) wantedSlot = 9         //CeeNee 10%
+          else if (Math.floor(five) === 2) wantedSlot = 7    //GoodLuck 10%
+          else if (Math.floor(five) === 3) wantedSlot = 5    //Body 10%
+          else if (Math.floor(five) === 4) wantedSlot = 1    //Queen 10%
+          else if (Math.floor(five) === 5) wantedSlot = 12   //HungPhat 10%
+      }      
+      else if (randomProb < 20) wantedSlot = 3               //Calendar 20%
+      else if (randomProb < 75) wantedSlot = 8               //Pen 75%
+      else wantedSlot = 10                                   //Sorry    
+    
+    var min = 30*(wantedSlot-1) + 5
+    var max = 30*wantedSlot -5
+    wantedAngle = Math.random()*(max-min) + min;
+    
 
-    console.log(this.spinAngleStart)
+    this.startAngle = 0;
+    this.spinAngleStart = (wantedAngle)/(this.constant) + 360*4
+    this.totalAngle = 0;
+    this.count = 0;
+    // console.log(this.spinAngleStart)    
     this.spinTime = 0;
-    this.spinTimeTotal = Math.random() * 3 + 4 * 1000;
-    this.rotateWheel()
-        .sound.play()
+    // this.spinTimeTotal = Math.random() * 3 + 4 * 1000;
+    this.spinTimeTotal = 100
+    this.rotateWheel();
+    this.sound.play();    
   }
 
   Roulette.prototype.rotateWheel = function() {
-    this.spinTime += 10;
+    this.spinTime += 1;   
+    this.count += 1; 
     if(this.spinTime >= this.spinTimeTotal) {
       this.stopRotateWheel()
       return this
     }
-    var s=this
-        ,spinAngle = this.spinAngleStart - this.easeOut(this.spinTime, 0, this.spinAngleStart, this.spinTimeTotal)
-    this.startAngle += (spinAngle * Math.PI / 180) //convert to rad
-    console.log("Current Angle to srar draw" + this.startAngle)
-    this.draw()
+    var s=this,
+    spinAngle = this.spinAngleStart - this.easeOut(this.spinTime, 0, this.spinAngleStart, this.spinTimeTotal);
+      // spinAngle = spinAngle + 
+    this.startAngle += (spinAngle * Math.PI / 180)
+    this.totalAngle += this.startAngle
+    // console.log(this.startAngle)
+    this.draw();
     this.spinTimeout = setTimeout((function () {    
       s.rotateWheel.call(s)
     }), this.drawInterval)
@@ -216,25 +252,27 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
 
     this.ctx.save();
     this.ctx.font = 'bold 30px Helvetica, Arial';
-    var text = this.awards[index]
-    console && console.log(text)
-    this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100)
-    this.ctx.restore()
+    var text = this.awards[index]  
+    console.log('___________________________-'+spinId+'-_______________________________')
+    console.log('-------------------------Verify info-------------------------')
+    console.log('Reward: ' + this.awards[index])
+    console.log('Wanted Slot: ' + wantedSlot) 
+    console.log('Wanted Angle: ' + Math.round(wantedAngle) + ' deg')
+    console.log('-----------------------Technical info------------------------')
+    console.log('Last angle rotation: '+ (Math.round(this.startAngle*180/Math.PI)%360) + ' deg')
+    console.log('Error: ' + (wantedAngle-(this.startAngle*180/Math.PI)%360) + ' deg')
+    console.log('Total angle rotation: '+(Math.round(this.totalAngle*180/Math.PI)) + ' deg')
+    console.log('Total draw: ' + this.count)
+    this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
+    this.ctx.restore();
   }
 
   Roulette.prototype.easeOut = function(t, b, c, d) {
-    
-    var ts = (t/=d)*t;
-    var tc = ts*t;
-    console.log(b+c*(tc + -3*ts + 3*t))
-    return b+c*(tc + -3*ts + 3*t);
-
-    // t /= d;
-    // t--;
-    // return c*(t*t*t + 1) + b;
+    var ts = (t/d)*(t/d);
+     var tc = ts*t/d;
+    return b+c*(tc + -3*ts + 3*t/d);
   }
 
-  Roulette.prototype.preventLucky = function () {
 
   }
 
