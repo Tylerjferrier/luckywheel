@@ -24,12 +24,15 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "#F891A4", "#DDDDB5", "#77EBEF", "#F9D6F4",
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
-        this.awards = ["USB",
-            "Mien Tay", "Auto repia", "Cutee", "body shop",
-            "miniplus", "calendar", "beegee", "queenhair", "Hung Phat", "mini", "sorry"];
-
-        this.percent = [10, 75, 10, 5, 10, 1, 20, 0.1, 10, 10, 2, 100] //just to show                 
-        this.amount = [50, 500, 2, 5, 3, 1, 20, 1, 3, 2, 2, 10000]
+        this.awards = [
+            {name:"USB",chance:"83",amount:"50", src: 'ceenee.png'}, {name:"MienTay Pen",chance:"70",amount:"500"},
+            {name:"AutoRepair Coupon",chance:"15",amount:"2"},{name:"CuTee",chance:"10",amount:"5"},
+            {name:"Bodyshop Coupon",chance:"15",amount:"3"},{name:"miniPlus",chance:"2",amount:"1"},
+            {name:"Calendar",chance:"40",amount:"20"},{name:"BeeGee",chance:"0.1",amount:"1"},
+            {name:"Queen's Hair",chance:"15",amount:"3"},{name:"Hung Phat",chance:"15",amount:"2"},
+            {name:"mini",chance:"5",amount:"2"},{name:"Sorry",chance:"20",amount:"10000"}]
+        
+        console.log(this.awards)
         this.avatars = [
             "assets/img/gift/1.png",
             "assets/img/gift/1.png",
@@ -45,7 +48,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "assets/img/gift/11.png",
             "assets/img/gift/12.png"]
 
-        this.drawInterval = 40; //redraw each this amount of ms 
+        this.drawInterval = 200; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
         this.arc = Math.PI / 6;
@@ -195,25 +198,39 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
     Roulette.prototype.spin = function () {
         spinId += 1;
-        // this.spinAngleStart = Math.random() * 10 + 10;
+        
         var randomProb = Math.random() * 100;
-        if (randomProb < 0.1) wantedSlot = 2 //BeeGee 0.1%
-        else if (randomProb < 1) wantedSlot = 4 //MiniPlus 1%
-        else if (randomProb < 2) wantedSlot = 11 //Mini 2%
-        else if (randomProb < 5) wantedSlot = 6 //CuTee 5%
-        else if (randomProb < 10) { //10% chance for CeeNee, GoodLuck, Body, Queen and HungPhat
-            var five = Math.random() * 4 + 1
-            if (Math.floor(five) === 1) wantedSlot = 9 //CeeNee 10%
-            else if (Math.floor(five) === 2) wantedSlot = 7 //GoodLuck 10%
-            else if (Math.floor(five) === 3) wantedSlot = 5 //Body 10%
-            else if (Math.floor(five) === 4) wantedSlot = 1 //Queen 10%
-            else if (Math.floor(five) === 5) wantedSlot = 12 //HungPhat 10%
-        } else if (randomProb < 20) wantedSlot = 3 //Calendar 20%
-        else if (randomProb < 75) wantedSlot = 8 //Pen 75%
-        else wantedSlot = 10 //Sorry    
+        var awards= this.awards
+        if (randomProb < 5)  {                                                                    //CeeNee Group --5%
+          var ceenee = Math.random() * 100
+          var totalC = 0;
+          if (ceenee < totalC += awards[8].chance && awards[8].amount > 0) wantedSlot = 8            //BeeGee 0.1%  
+          else if (ceenee < totalC += awards[6].chance && awards[6].amount > 0) wantedSlot = 6       //miniPlus 2%
+          else if (ceenee < totalC += awards[11].chance && awards[11].amount > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < totalC += awards[4].chance && awards[4].amount > 0) wantedSlot = 4       //CuTee 10%
+          else if (awards[1].amount > 0) wantedSlot = 1                                              //USB 83%
+        }            
+        
+        else if (randomProb < 15) {                                                               //Sponsor Group --10%          
+          var five = Math.random() * 100      
+          var totalS = 0;  
+          if (five < (totalS += awards[3].chance) && awards[3].amount > 0)wantedSlot = 3              //AutoRepair 15%
+          else if (five < totalS += awards[5].chance && awards[5].amount > 0) wantedSlot = 5          //BodyShop 15%
+          else if (five < totalS += awards[9].chance && awards[9].amount > 0) wantedSlot = 9          //Queen's Hair 15%
+          else if (five < totalS += awards[10].chance && awards[10].amount > 0) wantedSlot = 10       //HungPhat 15%
+          else if (awards[7].amount > 0) wantedSlot = 7                                               //Calendar 40%
+        }         
+        
+        else {                                                                                    //Extra Group --85%
+          var extra = Math.random() * 100          
+          if (extra < 5 && awards[1].amount > 0) wantedSlot = 1                                       //USB 5%          
+          else if (extra < 10 && awards[7].amount > 0) wantedSlot = 7                                 //Calendar 5%
+          else if (extra < 65 && awards[2].amount > 0) wantedSlot = 2                                 //Pen 55%
+          else  wantedSlot = 12                                                                       //Sorry  35%
+        }
 
-        var min = 30 * (wantedSlot - 1) + 5
-        var max = 30 * wantedSlot - 5
+        var min = 30 * (12 - wantedSlot) + 8
+        var max = 30 * (13 - wantedSlot) - 8
         wantedAngle = Math.random() * (max - min) + min;
 
 
@@ -264,10 +281,12 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.ctx.save();
         this.ctx.font = 'bold 30px Helvetica, Arial';
-        var text = this.awards[index]
+        var text = this.awards[index].name
+        console.log(this.awards)
+        console.log('Index is : ' + index)
         console.log('___________________________-' + spinId + '-_______________________________')
         console.log('-------------------------Verify info-------------------------')
-        console.log('Reward: ' + this.awards[index])
+        console.log('Reward: ' + text)
         console.log('Wanted Slot: ' + wantedSlot)
         console.log('Wanted Angle: ' + Math.round(wantedAngle) + ' deg')
         console.log('-----------------------Technical info------------------------')
@@ -275,7 +294,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         console.log('Error: ' + (wantedAngle - (this.startAngle * 180 / Math.PI) % 360) + ' deg')
         console.log('Total angle rotation: ' + (Math.round(this.totalAngle * 180 / Math.PI)) + ' deg')
         console.log('Total draw: ' + this.count)
-        this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
+        console.log('-------------------------------------------------------------')
+        //this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
         this.ctx.restore();
     }
 
@@ -284,8 +304,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         var tc = ts * t / d;
         return b + c * (tc + -3 * ts + 3 * t / d);
     }
-
-
 
 
   var r = new Roulette();
