@@ -2,7 +2,7 @@ body {
   padding-top: 60px;
 }
 #wheel {
-  background: url("../img/wheel.png") no-repeat;
+  /*background: url("../img/wheel.png") no-repeat;*/
   width: 854px;
   height: 854px;
   /*

@@ -24,9 +24,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
             "#F891A4", "#DDDDB5", "#77EBEF", "#F9D6F4",
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
-        this.awards = ["CeeNee", "Pen", "GoodLuck", "CuTee",
-            "Body", "MiniPlus", "Calendar", "BeeGee",
-            "Queen", "HungPhat", "Mini", "Sorry"];
+        this.awards = ["USB",
+            "Mien Tay", "Auto repia", "Cutee", "body shop",
+            "miniplus", "calendar", "beegee", "queenhair", "Hung Phat", "mini", "sorry"];
         this.percent = [10, 75, 10, 5, 10, 1, 20, 0.1, 10, 10, 2, 100] //just to show                 
         this.amount = [50, 500, 2, 5, 3, 1, 20, 1, 3, 2, 2, 10000]
         this.avatars = [
@@ -44,7 +44,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
             "assets/img/gift/11.png",
             "assets/img/gift/12.png"]
 
-        this.drawInterval = 60; //redraw each this amount of ms 
+        this.drawInterval = 40; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
         this.arc = Math.PI / 6;
@@ -92,13 +92,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
         ctx.save()
         ctx.translate(canvas.width / 2, canvas.height / 2)
         
-        if (this.init == false) {
-          ctx.rotate(angle)  
-          this.init = true
-        } else {
-          ctx.rotate(angle + this.arc / 2 + Math.PI / 2)  
-        }
-        
+        ctx.rotate(angle )          
 
         ctx.drawImage(this.wheelImage, -500, -500, 1000, 1000)
 
@@ -109,7 +103,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
         var canvas = this.canvas
         if (canvas.getContext) {
             this._drawBoard()
-            /*
+        /*    
         var outsideRadius = this.wheelRadius / 4 * 3;
         var textRadius = 200;
         var avatarRadius = 350;
@@ -125,7 +119,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
         ctx.lineWidth = 2;
        
         ctx.font = '20px bold Helvetica, Arial';
-       
+        
         for(var i = 0; i < 12; i++) {
           var angle = this.startAngle + i * this.arc;
           ctx.fillStyle = this.colors[i];
@@ -246,7 +240,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
     Roulette.prototype.stopRotateWheel = function () {
         this.sound.stop()
         clearTimeout(this.spinTimeout)
-        var degrees = this.startAngle * 180 / Math.PI + 90
+        var degrees = this.startAngle * 180 / Math.PI
         var arcd = this.arc * 180 / Math.PI
         var index = Math.floor((360 - degrees % 360) / arcd);
 
