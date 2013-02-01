@@ -64,7 +64,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
             autoplay: false,
             loop: true
         })
-
+        this.init = false
         this.loadResource()
     }
 
@@ -91,7 +91,15 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
         var angle = this.startAngle + 0 * this.arc //in radian
         ctx.save()
         ctx.translate(canvas.width / 2, canvas.height / 2)
-        ctx.rotate(angle + this.arc / 2 + Math.PI / 2)
+        
+        if (this.init == false) {
+          ctx.rotate(angle)  
+          this.init = true
+        } else {
+          ctx.rotate(angle + this.arc / 2 + Math.PI / 2)  
+        }
+        
+
         ctx.drawImage(this.wheelImage, -500, -500, 1000, 1000)
 
         ctx.restore()
