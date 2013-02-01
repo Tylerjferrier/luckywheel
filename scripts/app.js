@@ -1,7 +1,9 @@
 /*
 So we need to draw six times. Each time we draw two arc
 */
-define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, buzz) {
+
+define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
+    "use strict";
     console.log('Check if loaded');
     console.log($);
     console.log(_);
@@ -11,9 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
     var wantedSlot;
     var wantedAngle;
     var spinId = 0;
-
-    //Parse.initialize("1zzAMVXIJK6AZoxdKetSHXhXS7IVEJxOb5Vh1dqF", "VqN2jIE1EZTZ3EzHS9NLT71i4oSKI9JeEtYek3Yz");
-
+    
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
         console.log(this.constant)
@@ -27,6 +27,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
         this.awards = ["USB",
             "Mien Tay", "Auto repia", "Cutee", "body shop",
             "miniplus", "calendar", "beegee", "queenhair", "Hung Phat", "mini", "sorry"];
+
         this.percent = [10, 75, 10, 5, 10, 1, 20, 0.1, 10, 10, 2, 100] //just to show                 
         this.amount = [50, 500, 2, 5, 3, 1, 20, 1, 3, 2, 2, 10000]
         this.avatars = [
@@ -66,6 +67,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
         })
         this.init = false
         this.loadResource()
+    }
+    var i = 99;    
+    Roulette.prototype.setAwards = function (collection) {
+      var i = 0
+          ,awards = []
+      collection.each(function (a) {
+        i++
+        awards.push(a.toJSON())
+      })
+      this.awards = awards      
+      console.log(this.awards)
     }
 
     Roulette.prototype.loadResource = function () {
@@ -278,22 +290,146 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
 
   var r = new Roulette();
 
-  var Award = Backbone.Model.extend({
+  var RewardModel = Backbone.Model.extend({
       initialize: function () {
           console.log('Add a new award')
-      },
-      defaults: {
+      }
+      ,defaults: {
           name: 'New item',
           quantity: 1,
-          chance: 0.2
+          chance: 0.2,
+          weight: 1
+      }
+      ,won : function () {
+        this.quantity = this.quantity -1
+        this.save
       }
   })
 
-  var AwardCollection = Backbone.Collection.extend({
-
+  var RewardCollection = Backbone.Collection.extend({
+      localStorage: new Backbone.LocalStorage("reward") // Unique name within your app.
+      ,model: RewardModel      
   })
+  var Rewards = new RewardCollection
+  
+  Rewards.fetch()
 
+  var DataLw = {
+    dump : function  () {
+      var p ={
+          sku: 'ceenee_usb',
+          name: 'CeeNee USB',
+          quantity: 50,
+          chance: 0.2,
+          weight: 1
+        }
+        Rewards.create(p)
 
+        p = {
+          sku: 'mientay_pen',  
+          name: 'Mien Tay Pen',
+          quantity: 500,
+          chance: 0.2,
+          weight: 20
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'mientay_auto_repair',  
+          name: 'Auto Repair',
+          quantity: 2,
+          chance: 0.2,
+          weight: 30
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'ceenee_cutee',  
+          name: 'CuTee',
+          quantity: 5,
+          chance: 0.2,
+          weight: 40
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'mientay_body_work',  
+          name: 'Body Work',
+          quantity: 2,
+          chance: 0.2,
+          weight: 50
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'ceenee_miniplus',  
+          name: 'miniPlus',
+          quantity: 1,
+          chance: 0.2,
+          weight: 60
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'mientay_calender',  
+          name: 'Calendar',
+          quantity: 2,
+          chance: 0.2,
+          weight: 70
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'ceenee_beegee',  
+          name: 'CeeNee BeeGee',
+          quantity: 1,
+          chance: 0.2,
+          weight: 80
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'queen_hair_nail',  
+          name: 'QueenHair',
+          quantity: 3,
+          chance: 0.2,
+          weight: 80
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'hungphat_usa',
+          name: 'Hung Phat USA',
+          quantity: 1,
+          chance: 0.2,
+          weight: 100
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'ceenee_mini',
+          name: 'mini',
+          quantity: 2,
+          chance: 0.2,
+          weight: 110
+        }
+        Rewards.create(p)
+
+        p = {
+          sku: 'ceenee_sorry',
+          name: 'Sorry',
+          quantity: 99999999999999,
+          chance: 0.2,
+          weight: 120
+        }
+        Rewards.create(p)
+    }
+  }
+  if (Rewards.length == 0) {
+    DataLw.dump()
+  } else {
+    r.setAwards(Rewards)
+  }
 
   var AppView = Backbone.View.extend({
       el: '#playboard',
@@ -350,11 +486,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz'], function ($, _, Backbone, b
   //worker.postMessages{cmd: 'sync', args: [], Date.now(), msg: "Trying to sync database"}
 
   return {
-      init: function () {
-          var appView = new AppView()
-          var mcView = new McView()
+    _initDb: function () {
 
-      }
+    }
+    ,init: function () {
+      var appView = new AppView()
+      var mcView = new McView()
+    }
   }
 
 })

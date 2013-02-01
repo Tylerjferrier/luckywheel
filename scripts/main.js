@@ -1,7 +1,7 @@
 //Set the require.js configuration for your application.
 
 require.config({
-    baseUrl: "./scripts-0.1"
+    baseUrl: "./scripts"
     
     // Libraries
     ,paths: {
@@ -12,7 +12,8 @@ require.config({
         i18n: 'i18n',
         transform: 'jquery.transform',
         buzz: 'buzz',
-        parse: '//parsecdn.com/js/parse-1.2.0.min.js'        
+        parse: 'parse-1.2.0.min',
+        'localStorage': 'backbone.localStorage-min'
     }
 
     ,shim: {
@@ -26,6 +27,11 @@ require.config({
 
             // Exports the global window.Backbone object
             "exports": "Backbone"
+        },
+
+        "localStorage" : {
+            // Depends on underscore/lodash and jQuery
+            "deps": ["backbone"]
         },
 
         'transform': {
@@ -44,7 +50,7 @@ require.config({
         },
 
         'parse': {            
-            exports: 'parse'
+            exports: 'Parse'
         } 
     }
 
