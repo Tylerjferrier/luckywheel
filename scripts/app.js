@@ -61,7 +61,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
-      
+
         this.sound = new buzz.sound("resources/audio/spin", {
             formats: ["wav"],
             preload: true,
@@ -204,7 +204,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
           var ceenee = Math.random() * 100
           var totalC = 0;
-          if (ceenee < totalC += awards[8].chance && awards[8].amount > 0) wantedSlot = 8            //BeeGee 0.1%  
+          if (ceenee < (totalC += awards[8].chance) && awards[8].amount > 0) wantedSlot = 8            //BeeGee 0.1%  
           else if (ceenee < totalC += awards[6].chance && awards[6].amount > 0) wantedSlot = 6       //miniPlus 2%
           else if (ceenee < totalC += awards[11].chance && awards[11].amount > 0) wantedSlot = 11    //Mini 5%
           else if (ceenee < totalC += awards[4].chance && awards[4].amount > 0) wantedSlot = 4       //CuTee 10%
