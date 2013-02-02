@@ -10,10 +10,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     console.log(Backbone);
     console.log(buzz);
 
-    var wantedSlot;
-    var wantedAngle;
-    var spinId = 0;
+    var wantedSlot. wantedAngle, spinId = 0;
     
+    var appView, mcView, resultView;
+
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
         console.log(this.constant)
@@ -77,7 +77,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           ,awards = []
       collection.each(function (a) {
         i++
-        awards.push(a.toJSON())
+        awards.push(a)
       })
       this.awards = awards      
       console.log(this.awards)
@@ -477,6 +477,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           this.playButton.transform({
               rotate: 90
           })
+      }.
+
+      //When use won an item
+      //Show and render result board
+      win: function () {
+          
+      },
+
+      //When use fail, show sorry screen
+      sorry: function () {
+
       }
 
   })
@@ -496,6 +507,28 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   })
 
+  var ResultView = Backbone.View.extend({
+    el: '#reward-stock-cp',
+    template: _.template($('#tpl-result-board').html()),
+
+    render: function () {
+      this.$el.html(this.template(this.model.toJSON()))
+    },
+
+    initialize: function () {
+      
+    },
+
+    show: function () {
+
+    },
+
+    hide: function () {
+
+    }
+
+  })
+
   // Disable for now. May be use later. WIP
   // var worker = new Worker('./scripts/db_task.js');
   // worker.onmessage = function (event) {
@@ -508,8 +541,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
     }
     ,init: function () {
-      var appView = new AppView()
-      var mcView = new McView()
+      appView = new AppView()
+      mcView = new McView()
+      resultView = new ResultView();
+
     }
   }
 
