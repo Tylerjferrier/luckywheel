@@ -5,4 +5,4 @@ self.onmessage = function(event) {
 
 setInterval(function () {
 	self.postMessage('Hi, Im running at' + Date.now())
-}, 3000)
+}, 10000)

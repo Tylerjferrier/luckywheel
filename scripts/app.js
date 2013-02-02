@@ -205,9 +205,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           var ceenee = Math.random() * 100
           var totalC = 0;
           if (ceenee < (totalC += awards[8].chance) && awards[8].amount > 0) wantedSlot = 8            //BeeGee 0.1%  
-          else if (ceenee < totalC += awards[6].chance && awards[6].amount > 0) wantedSlot = 6       //miniPlus 2%
-          else if (ceenee < totalC += awards[11].chance && awards[11].amount > 0) wantedSlot = 11    //Mini 5%
-          else if (ceenee < totalC += awards[4].chance && awards[4].amount > 0) wantedSlot = 4       //CuTee 10%
+          else if (ceenee < (totalC += awards[6].chance) && awards[6].amount > 0) wantedSlot = 6       //miniPlus 2%
+          else if (ceenee < (totalC += awards[11].chance) && awards[11].amount > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < (totalC += awards[4].chance) && awards[4].amount > 0) wantedSlot = 4       //CuTee 10%
           else if (awards[1].amount > 0) wantedSlot = 1                                              //USB 83%
         }            
         
@@ -215,9 +215,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           var five = Math.random() * 100      
           var totalS = 0;  
           if (five < (totalS += awards[3].chance) && awards[3].amount > 0)wantedSlot = 3              //AutoRepair 15%
-          else if (five < totalS += awards[5].chance && awards[5].amount > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < totalS += awards[9].chance && awards[9].amount > 0) wantedSlot = 9          //Queen's Hair 15%
-          else if (five < totalS += awards[10].chance && awards[10].amount > 0) wantedSlot = 10       //HungPhat 15%
+          else if (five < (totalS += awards[5].chance) && awards[5].amount > 0) wantedSlot = 5          //BodyShop 15%
+          else if (five < (totalS += awards[9].chance) && awards[9].amount > 0) wantedSlot = 9          //Queen's Hair 15%
+          else if (five < (totalS += awards[10].chance) && awards[10].amount > 0) wantedSlot = 10       //HungPhat 15%
           else if (awards[7].amount > 0) wantedSlot = 7                                               //Calendar 40%
         }         
         
@@ -496,11 +496,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   })
 
-  var worker = new Worker('./scripts/db_task.js');
-  worker.onmessage = function (event) {
-      console.log("Called back by the worker!\nHere is the mesage that worker sent: " + event.data);
-
-  }
+  // Disable for now. May be use later. WIP
+  // var worker = new Worker('./scripts/db_task.js');
+  // worker.onmessage = function (event) {
+  //     console.log("Called back by the worker!\nHere is the mesage that worker sent: " + event.data);
+  // }
   //worker.postMessages{cmd: 'sync', args: [], Date.now(), msg: "Trying to sync database"}
 
   return {
