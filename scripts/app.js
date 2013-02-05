@@ -283,10 +283,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       localStorage: new Backbone.LocalStorage("reward") // Unique name within your app.
       ,model: RewardModel      
   })
-  var Rewards = new RewardCollection
-  Rewards.fetch()
-  r.setAwards(Rewards)
-
+  
   var ResultModel = Backbone.Model.extend({
     initialize: function () {
       
@@ -388,9 +385,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   return {
     _initDb: function () {
-
+      var Rewards = new RewardCollection
+      Rewards.fetch()
+      r.setAwards(Rewards)
     }
+    
     ,init: function () {
+      this._initDb()
       appView = new AppView()
       resultView = new ResultView({model: rotatingResult})
     }
