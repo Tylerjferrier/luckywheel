@@ -8,6 +8,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     var wantedSlot, wantedAngle, spinId = 0
     
     var appView, mcView, resultView
+    var rotatingResult
 
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
@@ -20,17 +21,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'ceenee.png', w: 10}, 
-            {sku:     'mt_pen', name:"MienTay Pen",chance:"70",amount:500, w: 20},
+            {sku:     'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: 'cutee.jpg', w: 20},
             {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, w: 30},
-            {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, w: 40},
+            {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
             {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, w: 50},
-            {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1, w: 60},
+            {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
             {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, w: 70},
-            {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, w: 80},
+            {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
             {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, w: 90},
             {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, w: 100},
-            {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, w: 110},
-            {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, w: 120}
+            {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
+            {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: 'cutee.jpg', w: 120}
         ]
         
         this.avatars = [
@@ -48,7 +49,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "assets/img/gift/11.png",
             "assets/img/gift/12.png"]
 
-        this.drawInterval = 50; //redraw each this amount of ms 
+        this.drawInterval = 30; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
         this.arc = Math.PI / 6;
@@ -62,27 +63,37 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
 
-        this.sound = new buzz.sound("resources/audio/spin", {
+        this.sound = {}
+        this.sound.spin = new buzz.sound("resources/audio/spin", {
             formats: ["wav"],
             preload: true,
             autoplay: false,
             loop: true
         })
+        this.sound.blah = new buzz.sound("resources/audio/blah", {
+            formats: ["wav"],
+            preload: true,
+            autoplay: false,
+            loop: false
+        })
+        this.sound.sorry = new buzz.sound("resources/audio/sad", {
+            formats: ["wav"],
+            preload: true,
+            autoplay: false,
+            loop: false
+        })
+
         this.init = false
         this.loadResource()
     }
-    var i = 99;    
+    //var i = 99;    
     Roulette.prototype.setAwards = function (collection) {
-      console.log(collection.length)
-      
       if (collection.length == 0) {
         for (var i=0; i<this.awards.length; i++) {
           collection.create(this.awards[i])
         }        
       }
-      this.awards = collection      
-      console.log(collection)
-      console.log(this.awards)
+      this.awards = collection            
     }
 
     Roulette.prototype.loadResource = function () {
@@ -91,8 +102,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
                 this.avatars[i] = new Image();
                 this.avatars[i].src = "assets/img/gift/" + (i + 1) + ".png";
             }
-        }).call(this)
-        //console.log(this.avatars);      
+        }).call(this)      
         this.wheelImage = new Image()
         this.wheelImage.src = "assets/img/wheel.png"
     }
@@ -162,7 +172,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
 
         this.startAngle = 0;
-        this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 4
+        this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 2
         this.totalAngle = 0;
         this.count = 0;
         // console.log(this.spinAngleStart)    
@@ -170,11 +180,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         // this.spinTimeTotal = Math.random() * 3 + 4 * 1000;
         this.spinTimeTotal = 100
         this.rotateWheel();
-        this.sound.play();
+        this.sound.spin.play();
     }
 
     Roulette.prototype.rotateWheel = function () {
-        this.spinTime += 1;
+        this.spinTime += 1; //1
         this.count += 1;
         if (this.spinTime >= this.spinTimeTotal) {
             this.stopRotateWheel()
@@ -194,7 +204,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     }
 
     Roulette.prototype.stopRotateWheel = function () {
-        this.sound.stop()
+        this.sound.spin.stop()
         clearTimeout(this.spinTimeout)
         var degrees = this.startAngle * 180 / Math.PI
         var arcd = this.arc * 180 / Math.PI
@@ -224,8 +234,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         console.log('Total draw: ' + this.count)
         console.log('-------------------------------------------------------------')
         //this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
-        
-        m.set('amount', m.get('amount') - 1)
+        m.won()        
         
         this.ctx.restore();
     }
@@ -241,10 +250,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   var RewardModel = Backbone.Model.extend({
       initialize: function () {
-          console.log('Add a new award')
+          //console.log('Add a new award')
           this.on('change', function (model) {
-            console.log('Wonnnn')
-            model.won()    
+            if ('ceenee_sorry' === this.get('sku')) {
+              console.log('You lost')  
+            } else {
+              console.log('You won')  
+            } 
           })
       }
       ,defaults: {
@@ -254,7 +266,15 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           weight: 1
       }
       ,won : function () {
-        this.quantity = this.quantity -1
+        rotatingResult.set({
+          item: this.get('name')
+          ,broc: {
+            src: this.get('src')
+            ,des: this.get('name')              
+          },
+          won: ('ceenee_sorry' === this.get('sku'))? false:true
+        })        
+        this.set('amount', this.get('amount') - 1)
         this.save
       }
   })
@@ -266,6 +286,21 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
   var Rewards = new RewardCollection
   Rewards.fetch()
   r.setAwards(Rewards)
+
+  var ResultModel = Backbone.Model.extend({
+    initialize: function () {
+      
+    }
+    ,defaults: {
+      broc: {
+        src: '',
+        des: ''
+      },
+      item: 'sorry',
+      won: false
+    }
+  })
+  rotatingResult = new ResultModel
 
   var AppView = Backbone.View.extend({
       el: '#playboard',
@@ -310,49 +345,46 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   })
 
-  var McView = Backbone.View.extend({
-      el: '#playboard > #mc',
-
-      message: 'Welcome...',
-
-      initialize: function () {
-          this.render()
-      },
-
-      render: function () {
-          this.$el.html(this.message)
-      }
-
-  })
-
   var ResultView = Backbone.View.extend({
-    el: '#reward-stock-cp',
+    el: '#mc',
     template: _.template($('#tpl-result-board').html()),
 
     render: function () {
-      this.$el.html(this.template(this.model.toJSON()))
+      console.log('Ok, show the result board here')
+      this.show()
     },
 
     initialize: function () {
-      
+      $('#result-fail').modal({
+        show: false,
+        backdrop: 'static'
+      })
+
+      this.listenTo(this.model, 'change', this.render);
     },
 
     show: function () {
-
+      console.log(this.model.toJSON())
+      if (true===this.model.get('won')) {
+        r.sound.blah.play()
+        $('.content', this.$el).html(this.template(this.model.toJSON()))            
+        this.$el.slideDown('slow')
+      } else {
+        r.sound.sorry.play()
+        $('#result-fail').modal('show')        
+      }
+      
     },
 
     hide: function () {
+      this.$el.slideUp().hide()
+    },
 
+    events : {
+      'click #hide' : 'hide'
     }
 
   })
-
-  // Disable for now. May be use later. WIP
-  // var worker = new Worker('./scripts/db_task.js');
-  // worker.onmessage = function (event) {
-  //     console.log("Called back by the worker!\nHere is the mesage that worker sent: " + event.data);
-  // }
-  //worker.postMessages{cmd: 'sync', args: [], Date.now(), msg: "Trying to sync database"}
 
   return {
     _initDb: function () {
@@ -360,9 +392,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     }
     ,init: function () {
       appView = new AppView()
-      mcView = new McView()
-      resultView = new ResultView();
-
+      resultView = new ResultView({model: rotatingResult})
     }
   }
 

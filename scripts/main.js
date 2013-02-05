@@ -6,6 +6,7 @@ require.config({
     // Libraries
     ,paths: {
         jquery: 'jquery.min',
+        bootstrap: 'bootstrap.min',
         'underscore': 'underscore-min',
         'backbone': 'backbone-min',
         text: 'text',
@@ -13,12 +14,21 @@ require.config({
         transform: 'jquery.transform',
         buzz: 'buzz',
         parse: 'parse-1.2.0.min',
-        'localStorage': 'backbone.localStorage-min'
+        'localStorage': 'backbone.localStorage-min',
+        easing: 'jquery.easing.1.3'
     }
 
     ,shim: {
         "underscore": {
             "exports": "_"
+        },
+        
+        "easing" : {
+            "deps": ["jquery"],
+        },
+
+        "bootstrap" : {
+            "deps": ["jquery"],  
         },
 
         "backbone": {
@@ -56,6 +66,6 @@ require.config({
 
 })
 // // Load our app module and pass it to our definition function
-require(['app', 'transform'], function (app) {
+require(['app', 'transform', 'easing', 'bootstrap'], function (app) {
     app.init();
 })
