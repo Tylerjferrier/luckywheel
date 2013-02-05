@@ -1,5 +1,5 @@
 body {
-  padding-top: 100px;
+  padding-top: 40px;
 }
 #wheel {
   background: url("../img/wheel.png") no-repeat;
@@ -74,6 +74,10 @@ a.brand {
 }
 #playboard #mc button {
   margin: 10px;
+}
+#playboard #mc .content {
+  text-align: center;
+  margin: 0 auto;
 }
 #playboard #arrow {
   background: url(../img/arrow.png);
