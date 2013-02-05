@@ -4,19 +4,13 @@ So we need to draw six times. Each time we draw two arc
 
 define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
     "use strict";
-    console.log('Check if loaded');
-    console.log($);
-    console.log(_);
-    console.log(Backbone);
-    console.log(buzz);
 
-    var wantedSlot, wantedAngle, spinId = 0;
+    var wantedSlot, wantedAngle, spinId = 0
     
-    var appView, mcView, resultView;
+    var appView, mcView, resultView
 
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
-        console.log(this.constant)
         this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
             "#2E2C75", "#673A7E", "#CC0071", "#F80120",
             "#F35B20", "#FB9A00", "#FFCC00", "#FEF200"]
@@ -25,14 +19,20 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
         this.awards = [
-            {name:"USB",chance:"83",amount:"50", src: 'ceenee.png'}, {name:"MienTay Pen",chance:"70",amount:"500"},
-            {name:"AutoRepair Coupon",chance:"15",amount:"2"},{name:"CuTee",chance:"10",amount:"5"},
-            {name:"Bodyshop Coupon",chance:"15",amount:"3"},{name:"miniPlus",chance:"2",amount:"1"},
-            {name:"Calendar",chance:"40",amount:"20"},{name:"BeeGee",chance:"0.1",amount:"1"},
-            {name:"Queen's Hair",chance:"15",amount:"3"},{name:"Hung Phat",chance:"15",amount:"2"},
-            {name:"mini",chance:"5",amount:"2"},{name:"Sorry",chance:"20",amount:"10000"}]
+            {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'ceenee.png', w: 10}, 
+            {sku:     'mt_pen', name:"MienTay Pen",chance:"70",amount:500, w: 20},
+            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, w: 30},
+            {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, w: 40},
+            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, w: 50},
+            {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1, w: 60},
+            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, w: 70},
+            {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, w: 80},
+            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, w: 90},
+            {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, w: 100},
+            {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, w: 110},
+            {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, w: 120}
+        ]
         
-        console.log(this.awards)
         this.avatars = [
             "assets/img/gift/1.png",
             "assets/img/gift/1.png",
@@ -48,7 +48,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "assets/img/gift/11.png",
             "assets/img/gift/12.png"]
 
-        this.drawInterval = 200; //redraw each this amount of ms 
+        this.drawInterval = 50; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
         this.arc = Math.PI / 6;
@@ -73,13 +73,15 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     }
     var i = 99;    
     Roulette.prototype.setAwards = function (collection) {
-      var i = 0
-          ,awards = []
-      collection.each(function (a) {
-        i++
-        awards.push(a)
-      })
-      this.awards = awards      
+      console.log(collection.length)
+      
+      if (collection.length == 0) {
+        for (var i=0; i<this.awards.length; i++) {
+          collection.create(this.awards[i])
+        }        
+      }
+      this.awards = collection      
+      console.log(collection)
       console.log(this.awards)
     }
 
@@ -129,28 +131,28 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
           var ceenee = Math.random() * 100
           var totalC = 0;
-          if (ceenee < (totalC += awards[8].chance) && awards[8].amount > 0) wantedSlot = 8            //BeeGee 0.1%  
-          else if (ceenee < (totalC += awards[6].chance) && awards[6].amount > 0) wantedSlot = 6       //miniPlus 2%
-          else if (ceenee < (totalC += awards[11].chance) && awards[11].amount > 0) wantedSlot = 11    //Mini 5%
-          else if (ceenee < (totalC += awards[4].chance) && awards[4].amount > 0) wantedSlot = 4       //CuTee 10%
-          else if (awards[1].amount > 0) wantedSlot = 1                                              //USB 83%
+          if (ceenee < (totalC += awards.at(8).get('chance')) && awards.at(8).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
+          else if (ceenee < (totalC += awards.at(6).get('chance')) && awards.at(6).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
+          else if (ceenee < (totalC += awards.at(11).get('chance')) && awards.at(11).get('amount') > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < (totalC += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 4       //CuTee 10%
+          else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
         }            
         
         else if (randomProb < 15) {                                                               //Sponsor Group --10%          
           var five = Math.random() * 100      
           var totalS = 0;  
-          if (five < (totalS += awards[3].chance) && awards[3].amount > 0)wantedSlot = 3              //AutoRepair 15%
-          else if (five < (totalS += awards[5].chance) && awards[5].amount > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < (totalS += awards[9].chance) && awards[9].amount > 0) wantedSlot = 9          //Queen's Hair 15%
-          else if (five < (totalS += awards[10].chance) && awards[10].amount > 0) wantedSlot = 10       //HungPhat 15%
-          else if (awards[7].amount > 0) wantedSlot = 7                                               //Calendar 40%
+          if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0)wantedSlot = 3              //AutoRepair 15%
+          else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
+          else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 9          //Queen's Hair 15%
+          else if (five < (totalS += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
+          else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                               //Calendar 40%
         }         
         
         else {                                                                                    //Extra Group --85%
           var extra = Math.random() * 100          
-          if (extra < 5 && awards[1].amount > 0) wantedSlot = 1                                       //USB 5%          
-          else if (extra < 10 && awards[7].amount > 0) wantedSlot = 7                                 //Calendar 5%
-          else if (extra < 65 && awards[2].amount > 0) wantedSlot = 2                                 //Pen 55%
+          if (extra < 5 && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
+          else if (extra < 10 && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
+          else if (extra < 65 && awards.at(2).get('amount') > 0) wantedSlot = 2                                 //Pen 55%
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
@@ -206,7 +208,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.ctx.save();
         this.ctx.font = 'bold 30px Helvetica, Arial';
-        var text = this.awards[index].name
+        var m = this.awards.at(index)  
+        var text = m.get('name')
         console.log(this.awards)
         console.log('Index is : ' + index)
         console.log('___________________________-' + spinId + '-_______________________________')
@@ -221,6 +224,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         console.log('Total draw: ' + this.count)
         console.log('-------------------------------------------------------------')
         //this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
+        
+        m.set('amount', m.get('amount') - 1)
+        
         this.ctx.restore();
     }
 
@@ -236,6 +242,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
   var RewardModel = Backbone.Model.extend({
       initialize: function () {
           console.log('Add a new award')
+          this.on('change', function (model) {
+            console.log('Wonnnn')
+            model.won()    
+          })
       }
       ,defaults: {
           name: 'New item',
@@ -246,9 +256,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       ,won : function () {
         this.quantity = this.quantity -1
         this.save
-      },
-
-
+      }
   })
 
   var RewardCollection = Backbone.Collection.extend({
@@ -256,125 +264,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       ,model: RewardModel      
   })
   var Rewards = new RewardCollection
-  
   Rewards.fetch()
-
-  var DataLw = {
-    dump : function  () {
-      var p ={
-          sku: 'ceenee_usb',
-          name: 'CeeNee USB',
-          quantity: 50,
-          chance: 0.2,
-          weight: 1
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'mientay_pen',  
-          name: 'Mien Tay Pen',
-          quantity: 500,
-          chance: 0.2,
-          weight: 20
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'mientay_auto_repair',  
-          name: 'Auto Repair',
-          quantity: 2,
-          chance: 0.2,
-          weight: 30
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'ceenee_cutee',  
-          name: 'CuTee',
-          quantity: 5,
-          chance: 0.2,
-          weight: 40
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'mientay_body_work',  
-          name: 'Body Work',
-          quantity: 2,
-          chance: 0.2,
-          weight: 50
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'ceenee_miniplus',  
-          name: 'miniPlus',
-          quantity: 1,
-          chance: 0.2,
-          weight: 60
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'mientay_calender',  
-          name: 'Calendar',
-          quantity: 2,
-          chance: 0.2,
-          weight: 70
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'ceenee_beegee',  
-          name: 'CeeNee BeeGee',
-          quantity: 1,
-          chance: 0.2,
-          weight: 80
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'queen_hair_nail',  
-          name: 'QueenHair',
-          quantity: 3,
-          chance: 0.2,
-          weight: 80
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'hungphat_usa',
-          name: 'Hung Phat USA',
-          quantity: 1,
-          chance: 0.2,
-          weight: 100
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'ceenee_mini',
-          name: 'mini',
-          quantity: 2,
-          chance: 0.2,
-          weight: 110
-        }
-        Rewards.create(p)
-
-        p = {
-          sku: 'ceenee_sorry',
-          name: 'Sorry',
-          quantity: 99999999999999,
-          chance: 0.2,
-          weight: 120
-        }
-        Rewards.create(p)
-    }
-  }
-  if (Rewards.length == 0) {
-    DataLw.dump()
-  } else {
-    r.setAwards(Rewards)
-  }
+  r.setAwards(Rewards)
 
   var AppView = Backbone.View.extend({
       el: '#playboard',

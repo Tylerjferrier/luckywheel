@@ -20,8 +20,13 @@
         <span id="arrow"></span>
         <canvas id="wheel" width="1000" height="1000"></canvas>  
         <span id="score"></span>
-        <div id="mc"></div>
-
+        <div id="mc" class="invisible"></div>
+        
+        <div id="result-fail">
+          <blockquote class="oval-quotes invisible">
+            <p>Sorry. You didn't win this time. But try again and good luck next time.</p>
+          </blockquote>
+        </div>  
     </div>
     <div class="preloader">
       <img src="assets/img/wheel.png" />
@@ -49,6 +54,8 @@
       Congratulation, you won 1 <% item %>
     </p>
   </script>
+
+  
 
 </body>
 </html>
