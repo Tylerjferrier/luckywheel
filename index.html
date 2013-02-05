@@ -25,44 +25,29 @@
           <div class="content">
           </div>          
         </div>
-        
-        <div id="result-fail">
-          <blockquote class="oval-quotes invisible">
-            <p>Sorry. You didn't win this time. But try again and good luck next time.</p>
-          </blockquote>
-        </div>  
     </div>
     <div class="preloader">
       <img src="assets/img/wheel.png" />
     </div>    
   </div>
   
-  <div class="modal hide fade" id="result-fail" role="dialog">
-    <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Modal header</h3>
-    </div>
-    <div class="modal-body">
-    <p>
-      <img src="assets/img/sad-face.png" alt="Good luck" />
-    </p>
-    </div>
-    <div class="modal-footer">
-    <a href="#" class="btn">Close</a>    
-    </div>
-  </div>
-    
-  
   <div id="reward-stock-cp"></div>
-    
   
   <script type="text/template" id="tpl-result-board">    
     <img alt="<%= item %>" src="assets/img/brochure/<%= src %>" />
     
     <div class="alert">
-      <h2>Congratulation, you won 1 <%= item %></h3>
+      <h2>Congratulation, you won 1 <%= item %></h2>
     </div>
   </script>
+  <script type="text/template" id="tpl-result-board-fail">    
+    <img alt="Sad" src="assets/img/sad-face.png" />
+    
+    <div class="alert">
+      <h2>Sorry, you lost. Try again next time and good luck</h2>
+    </div>
+  </script>
+
 
   <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
 </body>

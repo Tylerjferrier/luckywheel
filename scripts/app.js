@@ -105,6 +105,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }).call(this)      
         this.wheelImage = new Image()
         this.wheelImage.src = "assets/img/wheel.png"
+
+
     }
 
     Roulette.prototype._drawBoard = function () {
@@ -340,6 +342,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
   var ResultView = Backbone.View.extend({
     el: '#mc',
     template: _.template($('#tpl-result-board').html()),
+    templateFail: _.template($('#tpl-result-board-fail').html()),
 
     render: function () {
       console.log('Ok, show the result board here')
@@ -347,11 +350,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     initialize: function () {
-      $('#result-fail').modal({
-        show: false,
-        backdrop: 'static'
-      })
-
       this.listenTo(this.model, 'change', this.render);
     },
 
@@ -359,13 +357,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       console.log(this.model.toJSON())
       if (true===this.model.get('won')) {
         r.sound.blah.play()
-        $('.content', this.$el).html(this.template(this.model.toJSON()))            
-        this.$el.slideDown('slow')
+        $('.content', this.$el).html(this.template(this.model.toJSON()))                    
       } else {
         r.sound.sorry.play()
-        // $('#result-fail').modal('show')        
+        $('.content', this.$el).html(this.templateFail(this.model.toJSON()))            
+        templateFail
       }
-      
+      this.$el.slideDown('slow')
     },
 
     hide: function () {
