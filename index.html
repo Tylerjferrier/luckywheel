@@ -20,7 +20,11 @@
         <span id="arrow"></span>
         <canvas id="wheel" width="1000" height="1000"></canvas>  
         <span id="score"></span>
-        <div id="mc" class="invisible"></div>
+        <div id="mc" style="display: none">
+          <button class="btn btn-primary btn-large pull-right"><i class="icon-remove"></i>&nbsp;Close</button>
+          <div class="content">
+          </div>          
+        </div>
         
         <div id="result-fail">
           <blockquote class="oval-quotes invisible">
@@ -33,29 +37,32 @@
     </div>    
   </div>
   
+  <div class="modal hide fade" id="result-fail" role="dialog">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Modal header</h3>
+    </div>
+    <div class="modal-body">
+    <p>
+      <img src="assets/img/sad-face.png" alt="Good luck" />
+    </p>
+    </div>
+    <div class="modal-footer">
+    <a href="#" class="btn">Close</a>    
+    </div>
+  </div>
+    
+  
   <div id="reward-stock-cp"></div>
     
   <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
-  
-  <script type="text/template">
-    <tr>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>            
-    </tr>
-  </script>
 
   <script type="text/template" id="tpl-result-board">
-    <img alt="<% broc.des %>" src="<% broc.src %>" />
+    <img alt="<%= broc.des %>" src="<%= broc.src %>" />
     <p>
-      Congratulation, you won 1 <% item %>
+      Congratulation, you won 1 <%= item %>
     </p>
   </script>
-
-  
 
 </body>
 </html>
