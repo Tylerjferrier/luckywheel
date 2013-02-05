@@ -21,14 +21,14 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'ceenee.png', w: 10}, 
-            {sku:     'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: 'cutee.jpg', w: 20},
+            {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: 'cutee.jpg', w: 90},
             {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
             {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, w: 50},
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
             {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
-            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, w: 90},
+            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, w: 20},
             {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, w: 100},
             {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
             {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: 'cutee.jpg', w: 120}
@@ -153,7 +153,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           var totalS = 0;  
           if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0)wantedSlot = 3              //AutoRepair 15%
           else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 9          //Queen's Hair 15%
+          else if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
           else if (five < (totalS += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
           else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                               //Calendar 40%
         }         
@@ -162,7 +162,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           var extra = Math.random() * 100          
           if (extra < 5 && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
           else if (extra < 10 && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if (extra < 65 && awards.at(2).get('amount') > 0) wantedSlot = 2                                 //Pen 55%
+          else if (extra < 65 && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
@@ -368,7 +368,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.$el.slideDown('slow')
       } else {
         r.sound.sorry.play()
-        $('#result-fail').modal('show')        
+        // $('#result-fail').modal('show')        
       }
       
     },
