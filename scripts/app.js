@@ -22,14 +22,14 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'ceenee.png', w: 10}, 
             {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: 'cutee.jpg', w: 90},
-            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, w: 30},
+            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, src: 'cutee.jpg',w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, w: 50},
+            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, src: 'cutee.jpg',w: 50},
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
-            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, w: 70},
+            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, src: 'cutee.jpg',w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
-            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, w: 20},
-            {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, w: 100},
+            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: 'cutee.jpg',w: 20},
+            {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: 'cutee.jpg',w: 100},
             {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
             {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: 'cutee.jpg', w: 120}
         ]
@@ -263,16 +263,14 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           name: 'New item',
           quantity: 1,
           chance: 0.2,
-          weight: 1
+          weight: 1,
+          src: ''
       }
       ,won : function () {
         rotatingResult.set({
           item: this.get('name')
-          ,broc: {
-            src: this.get('src')
-            ,des: this.get('name')              
-          },
-          won: ('ceenee_sorry' === this.get('sku'))? false:true
+          ,src: this.get('src')
+          ,won: ('ceenee_sorry' === this.get('sku'))? false:true
         })        
         this.set('amount', this.get('amount') - 1)
         this.save
@@ -289,12 +287,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       
     }
     ,defaults: {
-      broc: {
-        src: '',
-        des: ''
-      },
-      item: 'sorry',
-      won: false
+      item: ''
+      ,src: ''
+      ,won: false
     }
   })
   rotatingResult = new ResultModel
@@ -378,7 +373,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     events : {
-      'click #hide' : 'hide'
+      'click .close-board' : 'hide'
     }
 
   })

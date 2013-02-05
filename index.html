@@ -21,7 +21,7 @@
         <canvas id="wheel" width="1000" height="1000"></canvas>  
         <span id="score"></span>
         <div id="mc" style="display: none">
-          <button class="btn btn-primary btn-large pull-right"><i class="icon-remove"></i>&nbsp;Close</button>
+          <button class="close-board btn btn-primary btn-large pull-right"><i class="icon-remove"></i>&nbsp;Close</button>
           <div class="content">
           </div>          
         </div>
@@ -55,14 +55,15 @@
   
   <div id="reward-stock-cp"></div>
     
-  <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
-
+  
   <script type="text/template" id="tpl-result-board">    
-    <img alt="<%= broc.des %>" src="assets/img/brochure/<%= broc.src %>" />
-    <p>
+    <img alt="<%= item %>" src="assets/img/brochure/<%= src %>" />
+    
+    <div class="alert">
       <h2>Congratulation, you won 1 <%= item %></h3>
-    </p>
+    </div>
   </script>
 
+  <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
 </body>
 </html>
