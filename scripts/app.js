@@ -272,7 +272,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         rotatingResult.set({
           item: this.get('name')
           ,src: this.get('src')
-          ,won: ('ceenee_sorry' === this.get('sku'))? false:true
+          ,won: 'ceenee_sorry' === this.get('sku')? false:true
         })        
         this.set('amount', this.get('amount') - 1)
         this.save
@@ -360,8 +360,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         $('.content', this.$el).html(this.template(this.model.toJSON()))                    
       } else {
         r.sound.sorry.play()
-        $('.content', this.$el).html(this.templateFail(this.model.toJSON()))            
-        templateFail
+        $('.content', this.$el).html(this.templateFail(this.model.toJSON()))                    
       }
       this.$el.slideDown('slow')
     },
