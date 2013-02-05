@@ -10,7 +10,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     console.log(Backbone);
     console.log(buzz);
 
-    var wantedSlot. wantedAngle, spinId = 0;
+    var wantedSlot, wantedAngle, spinId = 0;
     
     var appView, mcView, resultView;
 
@@ -321,7 +321,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       ,won : function () {
         this.quantity = this.quantity -1
         this.save
-      }
+      },
+
+
   })
 
   var RewardCollection = Backbone.Collection.extend({
@@ -477,12 +479,12 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           this.playButton.transform({
               rotate: 90
           })
-      }.
+      }
 
       //When use won an item
       //Show and render result board
-      win: function () {
-          
+      ,win: function () {
+
       },
 
       //When use fail, show sorry screen
