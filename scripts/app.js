@@ -4,7 +4,7 @@ So we need to draw six times. Each time we draw two arc
 
 define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
     "use strict";
-    var VERSION_LEVEL = "0.1.0.4" //major.minor.patch.update_cache_clean_number
+    var VERSION_LEVEL = "0.1.0.5" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
     var appView, mcView, resultView, rewardStockCpView, Rewards
@@ -94,7 +94,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       if (collection.length == 0 || localStorage.getItem('VERSION_LEVEL')!=VERSION_LEVEL) {
         collection.reset()
         localStorage.clear(function () {
-          console.log('Clear local storage')  
+          console && console.log('Clear local storage')  
         })
         localStorage.setItem('VERSION_LEVEL', VERSION_LEVEL)
         for (var i=0; i<this.awards.length; i++) {
@@ -145,7 +145,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         spinId += 1;
         
         var randomProb = Math.random() * 100
-        console.log("RANDOM PROB: " + randomProb)
+        console && console.log("RANDOM PROB: " + randomProb)
         var awards= this.awards
         var ceenee=0
           , totalC=0
@@ -155,7 +155,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           , five =0
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
           ceenee = Math.random() * 100
-          console.log("CEENEE CASE: " + ceenee)
+          console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
           if (ceenee < (totalC += awards.at(8).get('chance')) && awards.at(8).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
           else if (ceenee < (totalC += awards.at(6).get('chance')) && awards.at(6).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
@@ -166,7 +166,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         
         else if (randomProb < 15) {                                                               //Sponsor Group --10%          
           five = Math.random() * 100      
-          console.log("COUPON CASE: " + five)
+          console && console.log("COUPON CASE: " + five)
           totalS = 0;  
           if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0)wantedSlot = 3              //AutoRepair 15%
           else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
@@ -177,7 +177,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         
         else {                                                                                    //Extra Group --85%
           extra = Math.random() * 100          
-          console.log("EXTRA CASE: " + extra)
+          console && console.log("EXTRA CASE: " + extra)
           totalE=0
           if (extra < (totalE += this.extraChance[0]) && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
           else if (extra < (totalE += this.extraChance[1]) && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
@@ -227,26 +227,26 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         if (_.contains(this.congratItems, index)) {
             this.startAngle += (this.arc * 180) / Math.PI
         }
-        console.log(this.startAngle + ". In degree = 0" + (this.startAngle * 180 / Math.PI))
-        console.log(this.spinAngleStart + " is spin angle start in degree")
+        console && console.log(this.startAngle + ". In degree = 0" + (this.startAngle * 180 / Math.PI))
+        console && sconsole.log(this.spinAngleStart + " is spin angle start in degree")
 
         this.ctx.save();
         this.ctx.font = 'bold 30px Helvetica, Arial';
         var m = this.awards.at(index)  
         var text = m.get('name')
-        console.log(this.awards)
-        console.log('Index is : ' + index)
-        console.log('___________________________-' + spinId + '-_______________________________')
-        console.log('-------------------------Verify info-------------------------')
-        console.log('Reward: ' + text)
-        console.log('Wanted Slot: ' + wantedSlot)
-        console.log('Wanted Angle: ' + Math.round(wantedAngle) + ' deg')
-        console.log('-----------------------Technical info------------------------')
-        console.log('Last angle rotation: ' + (Math.round(this.startAngle * 180 / Math.PI) % 360) + ' deg')
-        console.log('Error: ' + (wantedAngle - (this.startAngle * 180 / Math.PI) % 360) + ' deg')
-        console.log('Total angle rotation: ' + (Math.round(this.totalAngle * 180 / Math.PI)) + ' deg')
-        console.log('Total draw: ' + this.count)
-        console.log('-------------------------------------------------------------')
+        console && console.log(this.awards)
+        console && console.log('Index is : ' + index)
+        console && console.log('___________________________-' + spinId + '-_______________________________')
+        console && console.log('-------------------------Verify info-------------------------')
+        console && console.log('Reward: ' + text)
+        console && console.log('Wanted Slot: ' + wantedSlot)
+        console && console.log('Wanted Angle: ' + Math.round(wantedAngle) + ' deg')
+        console && console.log('-----------------------Technical info------------------------')
+        console && console.log('Last angle rotation: ' + (Math.round(this.startAngle * 180 / Math.PI) % 360) + ' deg')
+        console && console.log('Error: ' + (wantedAngle - (this.startAngle * 180 / Math.PI) % 360) + ' deg')
+        console && console.log('Total angle rotation: ' + (Math.round(this.totalAngle * 180 / Math.PI)) + ' deg')
+        console && console.log('Total draw: ' + this.count)
+        console && console.log('-------------------------------------------------------------')
         //this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
         m.won()        
         
@@ -332,22 +332,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       },
 
       animatePlayButton: function () {
-          console.log('Hover')
-          console.log(this.playButton)
           this.playButton.transform({
               rotate: 90
           })
-      }
-
-      //When use won an item
-      //Show and render result board
-      ,win: function () {
-
-      },
-
-      //When use fail, show sorry screen
-      sorry: function () {
-
       }
 
   })
@@ -358,7 +345,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     templateFail: _.template($('#tpl-result-board-fail').html()),
 
     render: function () {
-      console.log('Ok, show the result board here')
       this.show()
     },
 
@@ -367,7 +353,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     show: function () {
-      console.log(this.model.toJSON())
       if (true===this.model.get('won')) {
         r.sound.blah.play()
         $('.content', this.$el).html(this.template(this.model.toJSON()))                    
@@ -407,14 +392,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
     ,doSave: function (e) {
       var index =  $(e.target).data('id')
-      console.log(index)
       var m = this.collection.at(index)
-      console.log(m)
-      console.log({
-        name:    $('.item-name', this.$el).eq(index).val()
-        ,amount: $('.item-amount', this.$el).eq(index).val()
-        ,src:    $('.item-src', this.$el).eq(index).val()
-      })
       m.set({
         name:    $('.item-name', this.$el).eq(index).val()
         ,amount: $('.item-amount', this.$el).eq(index).val()
