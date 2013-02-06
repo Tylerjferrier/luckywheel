@@ -20,18 +20,18 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
         this.awards = [
-            {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'ceenee.png', w: 10}, 
-            {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: 'cutee.jpg', w: 90},
-            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, src: 'cutee.jpg',w: 30},
+            {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'cutee.jpg', w: 10}, 
+            {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
+            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, src: '2repair.png',w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, src: 'cutee.jpg',w: 50},
+            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, src: '3bodywork.png',w: 50},
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
-            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, src: 'cutee.jpg',w: 70},
+            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, src: '4calendar.jpg',w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
-            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: 'cutee.jpg',w: 20},
-            {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: 'cutee.jpg',w: 100},
+            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: '5pen.png',w: 20},
+            {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: '6hungphat.png',w: 100},
             {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
-            {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: 'cutee.jpg', w: 120}
+            {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: '7sorry.png', w: 120}
         ]
         
         this.avatars = [
