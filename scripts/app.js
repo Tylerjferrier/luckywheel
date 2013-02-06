@@ -4,13 +4,13 @@ So we need to draw six times. Each time we draw two arc
 
 define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
     "use strict";
-    var VERSION_LEVEL = "0.1.0.5" //major.minor.patch.update_cache_clean_number
+    var VERSION_LEVEL = "0.1.0.6" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
     var appView, mcView, resultView, rewardStockCpView, Rewards
 
     var rotatingResult
-        
+
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
         this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
@@ -22,7 +22,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'cutee.jpg', w: 10}, 
-            {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
+            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
             {sku: 'mt_auto_repair', name:"MienTay $100 Coupon",chance:"15",amount:1, src: '2repair.png',w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
             {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"15",amount:1, src: '3bodywork.png',w: 50},
@@ -61,7 +61,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.spinTimeTotal = 0;
         this.count = 0;
 
-        this.extraChance = [5, 10, 75]
+        this.extraChance = [5, 10, 75]        
 
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
@@ -89,7 +89,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.init = false
         this.loadResource()
     }
-    //var i = 99;    
+    
+    /**
+    Award collection. Each award contains name, amount,..
+    When found no model then we dump definition data into collection. Also, when we bump up VERSION_LEVEL. We may
+    repopulate data from definition
+    @param a backbone collection
+    */
     Roulette.prototype.setAwards = function (collection) {
       if (collection.length == 0 || localStorage.getItem('VERSION_LEVEL')!=VERSION_LEVEL) {
         collection.reset()
@@ -115,6 +121,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.wheelImage.src = "assets/img/wheel.png"
     }
 
+    /**
+    Draw whole of background of the board and rotate an amount
+    */
     Roulette.prototype._drawBoard = function () {
         var canvas = this.canvas,
             ctx = this.ctx = canvas.getContext("2d");
@@ -153,6 +162,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           , totalE=0
           , extra = 0
           , five =0
+          console.debug(awards.at(8).get('amount'))
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
@@ -168,7 +178,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
-          if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0)wantedSlot = 3              //AutoRepair 15%
+          if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 3              //AutoRepair 15%
           else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
           else if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
           else if (five < (totalS += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
@@ -179,9 +189,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           extra = Math.random() * 100          
           console && console.log("EXTRA CASE: " + extra)
           totalE=0
+          console && console.log(awards.at(9))
+          console && console.log(awards.at(9).get('amount'))
           if (extra < (totalE += this.extraChance[0]) && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
           else if (extra < (totalE += this.extraChance[1]) && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if (extra < (totalE += this.extraChance[2]) && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
+          else if ( extra < (totalE += this.extraChance[2]) && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
@@ -228,7 +240,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             this.startAngle += (this.arc * 180) / Math.PI
         }
         console && console.log(this.startAngle + ". In degree = 0" + (this.startAngle * 180 / Math.PI))
-        console && sconsole.log(this.spinAngleStart + " is spin angle start in degree")
+        console && console.log(this.spinAngleStart + " is spin angle start in degree")
 
         this.ctx.save();
         this.ctx.font = 'bold 30px Helvetica, Arial';

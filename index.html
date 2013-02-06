@@ -12,7 +12,6 @@
       
 </head>
 <body>
-  
   <div class="container">      
     <div id="playboard">   
         <div id="result-board"></div>     
@@ -81,10 +80,10 @@
     <img alt="<%= item %>" src="assets/img/brochure/<%= src %>" />
   </script>
   <script type="text/template" id="tpl-result-board-fail">    
-    <img alt="Sad" src="assets/img/sad-face.png" />    
     <div class="alert">
       <h2>Sorry, you lost. Try again and good luck</h2>
     </div>
+    <img alt="Sad" src="assets/img/sad-face.png" />        
   </script>
 
   <script type="text/template" id="tpl-reward-stock">
@@ -95,7 +94,7 @@
             </td>
             <td>
               <input class="input-mini item-amount" type="text" name="amount[]" value="<%= item.amount %>" />
-              <input class="input-small item-name"  type="text" name="name[]" value="<%= item.name %>" />
+              <input class="input-medium item-name"  type="text" name="name[]" value="<%= item.name %>" />
               <input class="input-mini item-src"    type="text" name="src[]" value="<%= item.src %>" />              
             </td>  
             <td>
@@ -106,5 +105,6 @@
   </script>  
 
   <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
+
 </body>
 </html>
