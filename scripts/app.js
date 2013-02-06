@@ -177,9 +177,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 2
         this.totalAngle = 0;
         this.count = 0;
-        // console.log(this.spinAngleStart)    
         this.spinTime = 0;
-        // this.spinTimeTotal = Math.random() * 3 + 4 * 1000;
         this.spinTimeTotal = 100
         this.rotateWheel();
         this.sound.spin.play();
@@ -273,9 +271,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           item: this.get('name')
           ,src: this.get('src')
           ,won: 'ceenee_sorry' === this.get('sku')? false:true
+          ,forItem: this.get('id')
         })        
         this.set('amount', this.get('amount') - 1)
-        this.save
+        this.save()
+        console.log(this.toJSON())
       }
   })
 
