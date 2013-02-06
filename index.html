@@ -28,15 +28,34 @@
     </div>
     <div class="preloader">
       <img src="assets/img/wheel.png" alt="" />
-      <img src="assets/brochure/beegee.jpg" alt="" />
-      <img src="assets/brochure/cutee.jpg" alt="" />
-      <img src="assets/brochure/mini.jpg" alt="" />
-      <img src="assets/brochure/miniplus.jpg" alt="" />
-      <img src="assets/brochure/usb.jpg" alt="" />
+      <img src="assets/img/brochure/beegee.jpg" alt="" />
+      <img src="assets/img/brochure/cutee.jpg" alt="" />
+      <img src="assets/img/brochure/mini.jpg" alt="" />
+      <img src="assets/img/brochure/miniplus.jpg" alt="" />
+      <img src="assets/img/brochure/usb.jpg" alt="" />
+      <img src="assets/img/brochure/1queen.jpg" alt="" />
+      <img src="assets/img/brochure/2repair.jpg" alt="" />
+      <img src="assets/img/brochure/3bodywork.jpg" alt="" />
+      <img src="assets/img/brochure/4calendar.jpg" alt="" />
+      <img src="assets/img/brochure/5pen.jpg" alt="" />
+      <img src="assets/img/brochure/6hungphat.png" alt="" />
+      <img src="assets/img/brochure/7sorry.jpg" alt="" />
+      <img src="assets/img/brochure/pen.jpg" alt="" />
     </div>    
   </div>
   
-  <div id="reward-stock-cp"></div>
+  <div id="reward-stock-cp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Rewards</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>    
+    </div>
+  </div>
+  <a data-toggle="modal" href="#reward-stock-cp" id="toggle-reward-stock"><i class='icon-chevron-up'></i>&nbsp;</a>
   
   <script type="text/template" id="tpl-result-board">    
     <div class="alert">
@@ -51,6 +70,39 @@
     </div>
   </script>
 
+  <script type="text/template" id="tpl-reward-stock">
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th>
+            #
+          </th>
+          <th>
+            Q#
+          </th>
+          <th>
+            N#
+          </th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <% _.each(rewards, function (item) { %>
+          <tr>        
+            <td>
+
+            </td>
+            <td>
+              <%= item.amount %>
+            </td>
+            <td>
+              <%= item.name %>
+            </td>  
+          </tr>
+        <%  }) %>        
+      </tbody>
+    </table>
+  </script>  
 
   <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
 </body>

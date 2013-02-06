@@ -4,12 +4,13 @@ So we need to draw six times. Each time we draw two arc
 
 define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
     "use strict";
-
+    var VERSION_LEVEL = "0.1.0.4" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
-    var appView, mcView, resultView
-    var rotatingResult
+    var appView, mcView, resultView, rewardStockCpView, Rewards
 
+    var rotatingResult
+        
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
         this.colors = ["#B8D430", "#3AB745", "#029990", "#3501CB",
@@ -22,11 +23,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'cutee.jpg', w: 10}, 
             {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
-            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, src: '2repair.png',w: 30},
+            {sku: 'mt_auto_repair', name:"MienTay $100 Coupon",chance:"15",amount:1, src: '2repair.png',w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, src: '3bodywork.png',w: 50},
+            {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"15",amount:1, src: '3bodywork.png',w: 50},
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
-            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, src: '4calendar.jpg',w: 70},
+            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount: 100, src: '4calendar.jpg',w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
             {sku: 'mt_pen', name:"MienTay Pen",chance:"80",amount:500, src: '5pen.png',w: 20},
             {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: '6hungphat.png',w: 100},
@@ -90,7 +91,12 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     }
     //var i = 99;    
     Roulette.prototype.setAwards = function (collection) {
-      if (collection.length == 0) {
+      if (collection.length == 0 || localStorage.getItem('VERSION_LEVEL')!=VERSION_LEVEL) {
+        collection.reset()
+        localStorage.clear(function () {
+          console.log('Clear local storage')  
+        })
+        localStorage.setItem('VERSION_LEVEL', VERSION_LEVEL)
         for (var i=0; i<this.awards.length; i++) {
           collection.create(this.awards[i])
         }        
@@ -107,8 +113,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }).call(this)      
         this.wheelImage = new Image()
         this.wheelImage.src = "assets/img/wheel.png"
-
-
     }
 
     Roulette.prototype._drawBoard = function () {
@@ -204,10 +208,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }
         var s = this,
             spinAngle = this.spinAngleStart - this.easeOut(this.spinTime, 0, this.spinAngleStart, this.spinTimeTotal);
-        // spinAngle = spinAngle + 
         this.startAngle += (spinAngle * Math.PI / 180)
         this.totalAngle += this.startAngle
-        // console.log(this.startAngle)
         this.draw();
         this.spinTimeout = setTimeout((function () {
             s.rotateWheel.call(s)
@@ -316,6 +318,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       initialize: function () {
           r = r || new Roulette();
           this.render();
+          resultView = new ResultView({model: rotatingResult})
+          rewardStockCpView = new RewardStockCpView({collection: Rewards})
       },
 
       render: function () {
@@ -388,17 +392,31 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   })
 
+  var RewardStockCpView = Backbone.View.extend({
+    el: '#reward-stock-cp',
+    template: _.template($('#tpl-reward-stock').html()),
+
+    render: function () {
+      $('.modal-body', this.$el).html(this.template({rewards: this.collection.toJSON()}))
+    }, 
+
+    initialize: function () {
+      this.listenTo(this.collection, 'change', this.render)
+      this.render()
+    },
+
+  })
+
   return {
     _initDb: function () {
-      var Rewards = new RewardCollection
+      Rewards = new RewardCollection
       Rewards.fetch()
       r.setAwards(Rewards)
     }
     
     ,init: function () {
       this._initDb()
-      appView = new AppView()
-      resultView = new ResultView({model: rotatingResult})
+      appView = new AppView()      
     }
   }
 

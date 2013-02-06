@@ -119,6 +119,14 @@ a.brand {
   width: 65px;
   height: 90px;
 }
+#reward-stock-cp {
+  width: 400px;
+}
+#toggle-reward-stock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
 .preloader {
   display: none;
   background: url("../img/gift/1.png");
