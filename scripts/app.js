@@ -264,15 +264,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   var RewardModel = Backbone.Model.extend({
       initialize: function () {
-          //console.log('Add a new award')
           this.on('change', function (model) {
-            if ('ceenee_sorry' === this.get('sku')) {
-              console.log('You lost')  
-            } else {
-              console.log('You won')  
-            } 
+            //do sth here when model changes data
           })
       }
+      
       ,defaults: {
           name: 'New item',
           quantity: 1,
@@ -280,17 +276,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           weight: 1,
           src: ''
       }
+
       ,won : function () {
         rotatingResult.set({
           item: this.get('name')
           ,src: this.get('src')
           ,won: 'ceenee_sorry' === this.get('sku')? false:true
           ,forItem: this.get('id')
-          ,rnd: Math.random()
+          ,rnd: Math.random() //to force a update o rotatingResult model
         })        
         this.set('amount', this.get('amount') - 1)
         this.save()
-        console.log(this.toJSON())
       }
   })
 
@@ -397,13 +393,35 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     template: _.template($('#tpl-reward-stock').html()),
 
     render: function () {
-      $('.modal-body', this.$el).html(this.template({rewards: this.collection.toJSON()}))
+      $('.modal-body tbody', this.$el).html(this.template({rewards: this.collection.toJSON()}))
     }, 
 
     initialize: function () {
       this.listenTo(this.collection, 'change', this.render)
       this.render()
     },
+
+    events: {
+      'click .action-save': 'doSave'
+    }
+
+    ,doSave: function (e) {
+      var index =  $(e.target).data('id')
+      console.log(index)
+      var m = this.collection.at(index)
+      console.log(m)
+      console.log({
+        name:    $('.item-name', this.$el).eq(index).val()
+        ,amount: $('.item-amount', this.$el).eq(index).val()
+        ,src:    $('.item-src', this.$el).eq(index).val()
+      })
+      m.set({
+        name:    $('.item-name', this.$el).eq(index).val()
+        ,amount: $('.item-amount', this.$el).eq(index).val()
+        ,src:    $('.item-src', this.$el).eq(index).val()
+      })
+      m.save()
+    }
 
   })
 

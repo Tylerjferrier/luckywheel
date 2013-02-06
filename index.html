@@ -50,6 +50,23 @@
       <h3 id="myModalLabel">Rewards</h3>
     </div>
     <div class="modal-body">
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th>
+              #
+            </th>
+            <th>
+              N#
+            </th>
+            <th>
+              A#
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>        
     </div>
     <div class="modal-footer">
       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>    
@@ -71,37 +88,21 @@
   </script>
 
   <script type="text/template" id="tpl-reward-stock">
-    <table class="table table-stripped">
-      <thead>
-        <tr>
-          <th>
-            #
-          </th>
-          <th>
-            Q#
-          </th>
-          <th>
-            N#
-          </th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        <% _.each(rewards, function (item) { %>
-          <tr>        
+        <% _.each(rewards, function (item, index) { %>
+          <tr class="reward-item" data-id="<%= index %>">        
             <td>
-
+              <%= index %>
             </td>
             <td>
-              <%= item.amount %>
-            </td>
-            <td>
-              <%= item.name %>
+              <input class="input-mini item-amount" type="text" name="amount[]" value="<%= item.amount %>" />
+              <input class="input-small item-name"  type="text" name="name[]" value="<%= item.name %>" />
+              <input class="input-mini item-src"    type="text" name="src[]" value="<%= item.src %>" />              
             </td>  
+            <td>
+              <a data-id="<%= index %>" class="btn btn-mini action-save"><i data-id="<%= index %>" class="icon-edit"></i></a>
+            </td>
           </tr>
         <%  }) %>        
-      </tbody>
-    </table>
   </script>  
 
   <script type="text/javascript" data-main="scripts/main" src="scripts/require.js"></script>
