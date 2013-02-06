@@ -28,7 +28,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
             {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, src: '4calendar.jpg',w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
-            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: '5pen.png',w: 20},
+            {sku: 'mt_pen', name:"MienTay Pen",chance:"80",amount:500, src: '5pen.png',w: 20},
             {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: '6hungphat.png',w: 100},
             {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
             {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: '7sorry.png', w: 120}
@@ -59,6 +59,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.spinTime = 0;
         this.spinTimeTotal = 0;
         this.count = 0;
+
+        this.extraChance = [5, 10, 75]
 
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
@@ -138,11 +140,19 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     Roulette.prototype.spin = function () {
         spinId += 1;
         
-        var randomProb = Math.random() * 100;
+        var randomProb = Math.random() * 100
+        console.log("RANDOM PROB: " + randomProb)
         var awards= this.awards
+        var ceenee=0
+          , totalC=0
+          , totalS=0
+          , totalE=0
+          , extra = 0
+          , five =0
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
-          var ceenee = Math.random() * 100
-          var totalC = 0;
+          ceenee = Math.random() * 100
+          console.log("CEENEE CASE: " + ceenee)
+          totalC = 0;
           if (ceenee < (totalC += awards.at(8).get('chance')) && awards.at(8).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
           else if (ceenee < (totalC += awards.at(6).get('chance')) && awards.at(6).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
           else if (ceenee < (totalC += awards.at(11).get('chance')) && awards.at(11).get('amount') > 0) wantedSlot = 11    //Mini 5%
@@ -151,8 +161,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }            
         
         else if (randomProb < 15) {                                                               //Sponsor Group --10%          
-          var five = Math.random() * 100      
-          var totalS = 0;  
+          five = Math.random() * 100      
+          console.log("COUPON CASE: " + five)
+          totalS = 0;  
           if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0)wantedSlot = 3              //AutoRepair 15%
           else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
           else if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
@@ -161,17 +172,18 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }         
         
         else {                                                                                    //Extra Group --85%
-          var extra = Math.random() * 100          
-          if (extra < 5 && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
-          else if (extra < 10 && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if (extra < 65 && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
+          extra = Math.random() * 100          
+          console.log("EXTRA CASE: " + extra)
+          totalE=0
+          if (extra < (totalE += this.extraChance[0]) && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
+          else if (extra < (totalE += this.extraChance[1]) && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
+          else if (extra < (totalE += this.extraChance[2]) && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
         var min = 30 * (12 - wantedSlot) + 8
         var max = 30 * (13 - wantedSlot) - 8
         wantedAngle = Math.random() * (max - min) + min;
-
 
         this.startAngle = 0;
         this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 2
@@ -272,6 +284,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           ,src: this.get('src')
           ,won: 'ceenee_sorry' === this.get('sku')? false:true
           ,forItem: this.get('id')
+          ,rnd: Math.random()
         })        
         this.set('amount', this.get('amount') - 1)
         this.save()
