@@ -90,7 +90,7 @@ a.brand {
   -moz-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.2), inset 0 -3px 7px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.2), inset 0 -3px 7px rgba(0, 0, 0, 0.2);
   color: #FFFFFF;
-  padding: 40px 0;
+  padding: 10px 0;
   position: relative;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 0, 0, 0.075);
@@ -104,12 +104,12 @@ a.brand {
   z-index: 9999;
 }
 #playboard #mc button {
-  margin: 10px;
+  margin: 10px 20px;
   z-index: 2;
 }
 #playboard #mc .content {
   text-align: center;
-  margin: 0 auto;
+  margin: 0 10px;
 }
 #playboard #arrow {
   background: url(../img/arrow.png);
