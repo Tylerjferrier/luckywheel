@@ -7,7 +7,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     var VERSION_LEVEL = "0.1.0.6" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
-    var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards
+    var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards, winners
 
     var rotatingResult
 
@@ -364,7 +364,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(winners, 'add', this.addOne)
       this.listenTo(winners, 'reset', this.addAll)
-
+      winners.fetch()
     },
 
     show: function () {
@@ -393,6 +393,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         phone: $('.winner-phone', this.$el).val(),
         item:  this.model.get('name')
       })  
+      $('.winner-name', this.$el).val('')
+      $('.winner-phone', this.$el).val('')
+      this.$el.slideUp().hide()
     },
 
     addOne : function (winner) {
@@ -455,11 +458,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     localStorage: new Backbone.LocalStorage("winner") // Unique name within your app.
     ,model: WinnerModel
   })
+  winners = new WinnerCollection()      
 
-  var winners = new WinnerCollection()
-  winners.fetch() 
-  console.log(winners)
-  
   var WinnerView = Backbone.View.extend({
     tagName: "tr",
     template: _.template($('#tpl-winner-item').html()),
