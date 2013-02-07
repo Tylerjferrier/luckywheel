@@ -2,7 +2,7 @@
 So we need to draw six times. Each time we draw two arc
 */
 
-define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
+define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform', 'easing', 'bootstrap'], function ($, _, Backbone, buzz) {
     "use strict";
     var VERSION_LEVEL = "0.1.0.6" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0

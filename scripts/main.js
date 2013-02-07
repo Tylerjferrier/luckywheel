@@ -1,5 +1,3 @@
-//Set the require.js configuration for your application.
-
 require.config({
     baseUrl: "./scripts"
     
@@ -65,7 +63,6 @@ require.config({
     }
 
 })
-// // Load our app module and pass it to our definition function
-require(['app', 'transform', 'easing', 'bootstrap'], function (app) {
+require(['app'], function (app) {
     app.init();
 })
