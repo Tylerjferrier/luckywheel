@@ -384,7 +384,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         appView.r.sound.sorry.play()
         $('.content', this.$el).html(this.templateFail(this.model.toJSON()))                    
       }
-      this.$el.slideDown('slow')
+      this.$el.slideDown({
+        duration: 600,
+        easing: 'easeOutBounce'
+      })
     },
 
     hide: function () {
