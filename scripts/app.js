@@ -388,6 +388,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     hide: function () {
+      //Stop sound instantly when closing the board
+      appView.r.sound.blah.stop()
       this.$el.slideUp().hide()
     },
 
