@@ -162,7 +162,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           , totalE=0
           , extra = 0
           , five =0
-          console.debug(awards.at(8).get('amount'))
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
