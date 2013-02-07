@@ -21,18 +21,19 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
         this.awards = [
-            {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'cutee.jpg', w: 10}, 
-            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
-            {sku: 'mt_auto_repair', name:"MienTay $100 Coupon",chance:"15",amount:1, src: '2repair.png',w: 30},
+            {sku: 'ceenee_usb', name:"USB",chance:"45",amount:50, src: 'usb.png', w: 10}, 
+            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"10",amount:3, src: '1queen.png', w: 90},
+            {sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount:20, src: 'ceenee_50.png',w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"15",amount:1, src: '3bodywork.png',w: 50},
-            {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
-            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount: 100, src: '4calendar.jpg',w: 70},
-            {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
-            {sku: 'mt_pen', name:"MienTay Pen",chance:"80",amount:500, src: '5pen.png',w: 20},
-            {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: '6hungphat.png',w: 100},
+            {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"10",amount:1, src: '3bodywork.png',w: 50},
+            {sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
+            {sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:"10",amount: 100, src: 'ceenee_30.jpg',w: 70},
+            {sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
+            {sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
+            {sku: 'hungphat_usa', name:"Hung Phat",chance:"10",amount:0, src: '6hungphat.png',w: 100},
             {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
-            {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: '7sorry.png', w: 120}
+            {sku: 'lee_coffee', name:"1 Coffee from Lee Sandwiches",chance:"23",amount:160, src: 'lee_coffee.png', w: 120},
+            {sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10}, 
         ]
         
         this.avatars = [
