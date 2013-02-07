@@ -125,7 +125,7 @@ a.brand {
 }
 #toggle-reward-stock {
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
   left: 0;
 }
 #winner-list {
@@ -133,7 +133,7 @@ a.brand {
 }
 #toggle-winner-list {
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
   right: 0;
 }
 .preloader {
