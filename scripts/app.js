@@ -7,7 +7,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     var VERSION_LEVEL = "0.1.0.6" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
-    var appView, mcView, resultView, rewardStockCpView, Rewards
+    var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards
 
     var rotatingResult
 
@@ -167,10 +167,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
-          if (ceenee < (totalC += awards.at(8).get('chance')) && awards.at(8).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
-          else if (ceenee < (totalC += awards.at(6).get('chance')) && awards.at(6).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
-          else if (ceenee < (totalC += awards.at(11).get('chance')) && awards.at(11).get('amount') > 0) wantedSlot = 11    //Mini 5%
-          else if (ceenee < (totalC += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 4       //CuTee 10%
+          if (ceenee < (totalC += awards.at(7).get('chance')) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
+          else if (ceenee < (totalC += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
+          else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
           else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
         }            
         
@@ -178,10 +178,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
-          if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 3              //AutoRepair 15%
-          else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
-          else if (five < (totalS += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
+          if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 3              //AutoRepair 15%
+          else if (five < (totalS += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
+          else if (five < (totalS += awards.at(1).get('chance')) && awards.at(1).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
+          else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
           else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                               //Calendar 40%
         }         
         
@@ -191,9 +191,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           totalE=0
           console && console.log(awards.at(9))
           console && console.log(awards.at(9).get('amount'))
-          if (extra < (totalE += this.extraChance[0]) && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
-          else if (extra < (totalE += this.extraChance[1]) && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if ( extra < (totalE += this.extraChance[2]) && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
+          if (extra < (totalE += this.extraChance[0]) && awards.at(0).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
+          else if (extra < (totalE += this.extraChance[1]) && awards.at(6).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
+          else if ( extra < (totalE += this.extraChance[2]) && awards.at(8).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
@@ -362,6 +362,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
     initialize: function () {
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(winners, 'add', this.addOne)
+      this.listenTo(winners, 'reset', this.addAll)
+
     },
 
     show: function () {
@@ -380,7 +383,28 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     events : {
-      'click .close-board' : 'hide'
+      'click .close-board' : 'hide',
+      'click .new-winner'  : 'createWinner'
+    },
+
+    createWinner : function () {
+      winners.create({
+        name:  $('.winner-name', this.$el).val(),
+        phone: $('.winner-phone', this.$el).val(),
+        item:  this.model.get('name')
+      })  
+    },
+
+    addOne : function (winner) {
+      var view = new WinnerView({model: winner})
+      view.render()
+      console.log(view.el)
+      $('tbody', '#winner-list').append(view.el)
+    },
+
+    addAll: function () {
+      console.log(winners)
+      winners.each(this.addOne, this)
     }
 
   })
@@ -413,6 +437,42 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       m.save()
     }
 
+  })
+
+  var WinnerModel = Backbone.Model.extend({
+    initialize: function () {
+    
+    }
+      
+    ,defaults: {
+      name: 'Winner Name',
+      item: 1,
+      phone: ''
+    }    
+  })
+
+  var WinnerCollection = Backbone.Collection.extend({
+    localStorage: new Backbone.LocalStorage("winner") // Unique name within your app.
+    ,model: WinnerModel
+  })
+
+  var winners = new WinnerCollection()
+  winners.fetch() 
+  console.log(winners)
+  
+  var WinnerView = Backbone.View.extend({
+    tagName: "tr",
+    template: _.template($('#tpl-winner-item').html()),
+
+    initialize: function () {
+      
+    },
+
+    render: function () {
+      this.$el.html(this.template(this.model.toJSON()))
+      return this
+    }
+   
   })
 
   return {

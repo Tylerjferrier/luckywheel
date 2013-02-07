@@ -22,7 +22,14 @@
         <div id="mc" style="display: none">
           <button class="close-board btn btn-primary btn-large pull-right"><i class="icon-remove"></i>&nbsp;Close</button>
           <div class="content">
-          </div>          
+          </div>
+          <form action="#" class="form-horizontal">
+              <div class="controls-group">
+              </div>
+              <input class="winner-name" />
+              <input class="winner-phone" />
+              <button class="btn btn-medium new-winner">Save</button>
+          </form>          
         </div>
     </div>
     <div class="preloader">
@@ -71,7 +78,36 @@
       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>    
     </div>
   </div>
+  
+  <div id="winner-list" class="modal hide fade" tabindex="2" role="dialog">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Winners</h3>
+    </div>
+    <div class="modal-body">
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Won
+            </th>
+            <th>Time</th>            
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>        
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>    
+    </div>
+  </div>
+  
   <a data-toggle="modal" href="#reward-stock-cp" id="toggle-reward-stock"><i class='icon-chevron-up'></i>&nbsp;</a>
+  <a data-toggle="modal" href="#winner-list" id="toggle-winner-list"><i class='icon-chevron-up'></i>&nbsp;</a>
   
   <script type="text/template" id="tpl-result-board">    
     <div class="alert">
@@ -79,12 +115,25 @@
     </div>
     <img alt="<%= item %>" src="assets/img/brochure/<%= src %>" />
   </script>
+
   <script type="text/template" id="tpl-result-board-fail">    
     <div class="alert">
       <h2>Sorry, you lost. Try again and good luck</h2>
     </div>
     <img alt="Sad" src="assets/img/sad-face.png" />        
   </script>
+
+  <script type="text/template" id="tpl-winner-item">    
+    <td>
+      <%= name %>
+    </td>
+    <td>
+      <%= phone %>      
+    </td>
+    <td>
+      <%= item %>      
+    </td>
+  </script>  
 
   <script type="text/template" id="tpl-reward-stock">
         <% _.each(rewards, function (item, index) { %>
