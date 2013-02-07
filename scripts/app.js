@@ -27,7 +27,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
             {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"10",amount:1, src: '3bodywork.png',w: 50},
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
-            {sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:"10",amount: 100, src: 'ceenee_30.jpg',w: 70},
+            {sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:"10",amount: 100, src: 'ceenee_30.png',w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
             {sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
             {sku: 'hungphat_usa', name:"Hung Phat",chance:"10",amount:0, src: '6hungphat.png',w: 100},
