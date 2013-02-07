@@ -23,7 +23,8 @@ a.brand {
 }
 */
 #playboard {
-  position: absolute;
+  margin: 0 auto;
+  position: relative;
   width: 1000px;
 }
 #playboard #wheel {
