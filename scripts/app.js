@@ -8,7 +8,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     var wantedSlot, wantedAngle, spinId = 0
     
     var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards, winners
-
+    
     var rotatingResult
 
     var Roulette = function () {
@@ -20,7 +20,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             "#F891A4", "#DDDDB5", "#77EBEF", "#F9D6F4",
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
-        this.awards = [
+        this.awards = this._awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"45",amount:50, src: 'usb.png', w: 10}, 
             {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"10",amount:3, src: '1queen.png', w: 90},
             {sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount:20, src: 'ceenee_50.png',w: 30},
@@ -35,6 +35,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
             {sku: 'lee_coffee', name:"1 Coffee from Lee Sandwiches",chance:"23",amount:160, src: 'lee_coffee.png', w: 120},
             {sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10}, 
         ]
+
         
         this.avatars = [
             "assets/img/gift/1.png",
@@ -54,7 +55,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.drawInterval = 30; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
-        this.arc = Math.PI / 6;
+        this.arc = Math.PI / 6; 
         this.spinTimeout = null;
 
         this.spinArcStart = 10;
@@ -104,8 +105,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           console && console.log('Clear local storage')  
         })
         localStorage.setItem('VERSION_LEVEL', VERSION_LEVEL)
-        for (var i=0; i<this.awards.length; i++) {
-          collection.create(this.awards[i])
+        for (var i=0; i<this._awards.length; i++) {
+          collection.create(this._awards[i])
         }        
       }
       this.awards = collection            
@@ -271,9 +272,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         return b + c * (tc + -3 * ts + 3 * t / d);
     }
 
-
-  var r = new Roulette();
-
   var RewardModel = Backbone.Model.extend({
       initialize: function () {
           this.on('change', function (model) {
@@ -317,21 +315,28 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       ,won: false
     }
   })
-  rotatingResult = new ResultModel
-
+  
   var AppView = Backbone.View.extend({
       el: '#playboard',
       playButton: $('button#spin'),
 
       initialize: function () {
-          r = r || new Roulette();
-          this.render();
-          resultView = new ResultView({model: rotatingResult})
-          rewardStockCpView = new RewardStockCpView({collection: Rewards})
+        this.r = new Roulette();
+        
+        rotatingResult = new ResultModel()
+        winners = new WinnerCollection()      
+
+        Rewards = new RewardCollection
+        Rewards.fetch()
+        this.r.setAwards(Rewards)
+
+        resultView = new ResultView({model: rotatingResult})
+        rewardStockCpView = new RewardStockCpView({collection: Rewards})
+        this.render()        
       },
 
       render: function () {
-          r.draw();
+        this.r.draw();
       },
 
       events: {
@@ -340,13 +345,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       },
 
       doPlay: function () {
-          r.spin();
+        this.r.spin();
       },
 
       animatePlayButton: function () {
           this.playButton.transform({
               rotate: 90
           })
+      },
+
+      resetData: function () {
+        this.r.setAwards(Rewards)
       }
 
   })
@@ -369,10 +378,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
     show: function () {
       if (true===this.model.get('won')) {
-        r.sound.blah.play()
+        appView.r.sound.blah.play()
         $('.content', this.$el).html(this.template(this.model.toJSON()))                    
       } else {
-        r.sound.sorry.play()
+        appView.r.sound.sorry.play()
         $('.content', this.$el).html(this.templateFail(this.model.toJSON()))                    
       }
       this.$el.slideDown('slow')
@@ -426,7 +435,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     events: {
-      'click .action-save': 'doSave'
+      'click .action-save': 'doSave',
+      'click .action-reset': 'doReset'
     }
 
     ,doSave: function (e) {
@@ -438,6 +448,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         ,src:    $('.item-src', this.$el).eq(index).val()
       })
       m.save()
+    }
+
+    ,doReset: function (e) {
+      VERSION_LEVEL = "reset-flag-" + Math.random
+      appView.resetData()  
     }
 
   })
@@ -458,8 +473,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     localStorage: new Backbone.LocalStorage("winner") // Unique name within your app.
     ,model: WinnerModel
   })
-  winners = new WinnerCollection()      
-
+  
   var WinnerView = Backbone.View.extend({
     tagName: "tr",
     template: _.template($('#tpl-winner-item').html()),
@@ -476,14 +490,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
   })
 
   return {
-    _initDb: function () {
-      Rewards = new RewardCollection
-      Rewards.fetch()
-      r.setAwards(Rewards)
-    }
-    
-    ,init: function () {
-      this._initDb()
+    init: function () {
       appView = new AppView()      
     }
   }
