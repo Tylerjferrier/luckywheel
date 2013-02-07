@@ -4,10 +4,11 @@ So we need to draw six times. Each time we draw two arc
 
 define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($, _, Backbone, buzz) {
     "use strict";
-
+    var VERSION_LEVEL = "0.1.0.6" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
-    var appView, mcView, resultView
+    var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards, winners
+
     var rotatingResult
 
     var Roulette = function () {
@@ -21,14 +22,14 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
         this.awards = [
             {sku: 'ceenee_usb', name:"USB",chance:"83",amount:50, src: 'cutee.jpg', w: 10}, 
-            {sku:     'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
-            {sku: 'mt_auto_repair', name:"AutoRepair Coupon",chance:"15",amount:2, src: '2repair.png',w: 30},
+            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"15",amount:3, src: '1queen.png', w: 90},
+            {sku: 'mt_auto_repair', name:"MienTay $100 Coupon",chance:"15",amount:1, src: '2repair.png',w: 30},
             {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {sku: 'mt_body_work', name:"Bodyshop Coupon",chance:"15",amount:3, src: '3bodywork.png',w: 50},
+            {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"15",amount:1, src: '3bodywork.png',w: 50},
             {sku: 'ceenee_miniplus', name:"miniPlus",chance:"2",amount:1,src: 'miniplus.jpg', w: 60},
-            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount:20, src: '4calendar.jpg',w: 70},
+            {sku: 'mt_calendar', name:"Calendar",chance:"40",amount: 100, src: '4calendar.jpg',w: 70},
             {sku: 'ceenee_beegee', name:"BeeGee",chance:"0.1",amount:1, src: 'beegee.jpg', w: 80},
-            {sku: 'mt_pen', name:"MienTay Pen",chance:"70",amount:500, src: '5pen.png',w: 20},
+            {sku: 'mt_pen', name:"MienTay Pen",chance:"80",amount:500, src: '5pen.png',w: 20},
             {sku: 'hungphat_usa', name:"Hung Phat",chance:"15",amount:2, src: '6hungphat.png',w: 100},
             {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
             {sku: 'ceenee_sorry', name:"Sorry",chance:"20",amount:999999, src: '7sorry.png', w: 120}
@@ -60,6 +61,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.spinTimeTotal = 0;
         this.count = 0;
 
+        this.extraChance = [5, 10, 75]        
+
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
 
@@ -86,9 +89,20 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         this.init = false
         this.loadResource()
     }
-    //var i = 99;    
+    
+    /**
+    Award collection. Each award contains name, amount,..
+    When found no model then we dump definition data into collection. Also, when we bump up VERSION_LEVEL. We may
+    repopulate data from definition
+    @param a backbone collection
+    */
     Roulette.prototype.setAwards = function (collection) {
-      if (collection.length == 0) {
+      if (collection.length == 0 || localStorage.getItem('VERSION_LEVEL')!=VERSION_LEVEL) {
+        collection.reset()
+        localStorage.clear(function () {
+          console && console.log('Clear local storage')  
+        })
+        localStorage.setItem('VERSION_LEVEL', VERSION_LEVEL)
         for (var i=0; i<this.awards.length; i++) {
           collection.create(this.awards[i])
         }        
@@ -105,10 +119,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }).call(this)      
         this.wheelImage = new Image()
         this.wheelImage.src = "assets/img/wheel.png"
-
-
     }
 
+    /**
+    Draw whole of background of the board and rotate an amount
+    */
     Roulette.prototype._drawBoard = function () {
         var canvas = this.canvas,
             ctx = this.ctx = canvas.getContext("2d");
@@ -138,40 +153,52 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     Roulette.prototype.spin = function () {
         spinId += 1;
         
-        var randomProb = Math.random() * 100;
+        var randomProb = Math.random() * 100
+        console && console.log("RANDOM PROB: " + randomProb)
         var awards= this.awards
+        var ceenee=0
+          , totalC=0
+          , totalS=0
+          , totalE=0
+          , extra = 0
+          , five =0
         if (randomProb < 5)  {                                                                    //CeeNee Group --5%
-          var ceenee = Math.random() * 100
-          var totalC = 0;
-          if (ceenee < (totalC += awards.at(8).get('chance')) && awards.at(8).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
-          else if (ceenee < (totalC += awards.at(6).get('chance')) && awards.at(6).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
-          else if (ceenee < (totalC += awards.at(11).get('chance')) && awards.at(11).get('amount') > 0) wantedSlot = 11    //Mini 5%
-          else if (ceenee < (totalC += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 4       //CuTee 10%
+          ceenee = Math.random() * 100
+          console && console.log("CEENEE CASE: " + ceenee)
+          totalC = 0;
+          if (ceenee < (totalC += awards.at(7).get('chance')) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
+          else if (ceenee < (totalC += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
+          else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
           else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
         }            
         
         else if (randomProb < 15) {                                                               //Sponsor Group --10%          
-          var five = Math.random() * 100      
-          var totalS = 0;  
-          if (five < (totalS += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0)wantedSlot = 3              //AutoRepair 15%
-          else if (five < (totalS += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
-          else if (five < (totalS += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
+          five = Math.random() * 100      
+          console && console.log("COUPON CASE: " + five)
+          totalS = 0;  
+          if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 3              //AutoRepair 15%
+          else if (five < (totalS += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
+          else if (five < (totalS += awards.at(1).get('chance')) && awards.at(1).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
+          else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
           else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                               //Calendar 40%
         }         
         
         else {                                                                                    //Extra Group --85%
-          var extra = Math.random() * 100          
-          if (extra < 5 && awards.at(1).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
-          else if (extra < 10 && awards.at(7).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if (extra < 65 && awards.at(9).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
+          extra = Math.random() * 100          
+          console && console.log("EXTRA CASE: " + extra)
+          totalE=0
+          console && console.log(awards.at(9))
+          console && console.log(awards.at(9).get('amount'))
+          if (extra < (totalE += this.extraChance[0]) && awards.at(0).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
+          else if (extra < (totalE += this.extraChance[1]) && awards.at(6).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
+          else if ( extra < (totalE += this.extraChance[2]) && awards.at(8).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
         var min = 30 * (12 - wantedSlot) + 8
         var max = 30 * (13 - wantedSlot) - 8
         wantedAngle = Math.random() * (max - min) + min;
-
 
         this.startAngle = 0;
         this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 2
@@ -192,10 +219,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         }
         var s = this,
             spinAngle = this.spinAngleStart - this.easeOut(this.spinTime, 0, this.spinAngleStart, this.spinTimeTotal);
-        // spinAngle = spinAngle + 
         this.startAngle += (spinAngle * Math.PI / 180)
         this.totalAngle += this.startAngle
-        // console.log(this.startAngle)
         this.draw();
         this.spinTimeout = setTimeout((function () {
             s.rotateWheel.call(s)
@@ -213,26 +238,26 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
         if (_.contains(this.congratItems, index)) {
             this.startAngle += (this.arc * 180) / Math.PI
         }
-        console.log(this.startAngle + ". In degree = 0" + (this.startAngle * 180 / Math.PI))
-        console.log(this.spinAngleStart + " is spin angle start in degree")
+        console && console.log(this.startAngle + ". In degree = 0" + (this.startAngle * 180 / Math.PI))
+        console && console.log(this.spinAngleStart + " is spin angle start in degree")
 
         this.ctx.save();
         this.ctx.font = 'bold 30px Helvetica, Arial';
         var m = this.awards.at(index)  
         var text = m.get('name')
-        console.log(this.awards)
-        console.log('Index is : ' + index)
-        console.log('___________________________-' + spinId + '-_______________________________')
-        console.log('-------------------------Verify info-------------------------')
-        console.log('Reward: ' + text)
-        console.log('Wanted Slot: ' + wantedSlot)
-        console.log('Wanted Angle: ' + Math.round(wantedAngle) + ' deg')
-        console.log('-----------------------Technical info------------------------')
-        console.log('Last angle rotation: ' + (Math.round(this.startAngle * 180 / Math.PI) % 360) + ' deg')
-        console.log('Error: ' + (wantedAngle - (this.startAngle * 180 / Math.PI) % 360) + ' deg')
-        console.log('Total angle rotation: ' + (Math.round(this.totalAngle * 180 / Math.PI)) + ' deg')
-        console.log('Total draw: ' + this.count)
-        console.log('-------------------------------------------------------------')
+        console && console.log(this.awards)
+        console && console.log('Index is : ' + index)
+        console && console.log('___________________________-' + spinId + '-_______________________________')
+        console && console.log('-------------------------Verify info-------------------------')
+        console && console.log('Reward: ' + text)
+        console && console.log('Wanted Slot: ' + wantedSlot)
+        console && console.log('Wanted Angle: ' + Math.round(wantedAngle) + ' deg')
+        console && console.log('-----------------------Technical info------------------------')
+        console && console.log('Last angle rotation: ' + (Math.round(this.startAngle * 180 / Math.PI) % 360) + ' deg')
+        console && console.log('Error: ' + (wantedAngle - (this.startAngle * 180 / Math.PI) % 360) + ' deg')
+        console && console.log('Total angle rotation: ' + (Math.round(this.totalAngle * 180 / Math.PI)) + ' deg')
+        console && console.log('Total draw: ' + this.count)
+        console && console.log('-------------------------------------------------------------')
         //this.ctx.fillText(text, this.wheelRadius - this.ctx.measureText(text).width / 2, this.wheelRadius + 100);
         m.won()        
         
@@ -250,15 +275,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
 
   var RewardModel = Backbone.Model.extend({
       initialize: function () {
-          //console.log('Add a new award')
           this.on('change', function (model) {
-            if ('ceenee_sorry' === this.get('sku')) {
-              console.log('You lost')  
-            } else {
-              console.log('You won')  
-            } 
+            //do sth here when model changes data
           })
       }
+      
       ,defaults: {
           name: 'New item',
           quantity: 1,
@@ -266,16 +287,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
           weight: 1,
           src: ''
       }
+
       ,won : function () {
         rotatingResult.set({
           item: this.get('name')
           ,src: this.get('src')
           ,won: 'ceenee_sorry' === this.get('sku')? false:true
           ,forItem: this.get('id')
+          ,rnd: Math.random() //to force a update o rotatingResult model
         })        
         this.set('amount', this.get('amount') - 1)
         this.save()
-        console.log(this.toJSON())
       }
   })
 
@@ -303,6 +325,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       initialize: function () {
           r = r || new Roulette();
           this.render();
+          resultView = new ResultView({model: rotatingResult})
+          rewardStockCpView = new RewardStockCpView({collection: Rewards})
       },
 
       render: function () {
@@ -319,22 +343,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
       },
 
       animatePlayButton: function () {
-          console.log('Hover')
-          console.log(this.playButton)
           this.playButton.transform({
               rotate: 90
           })
-      }
-
-      //When use won an item
-      //Show and render result board
-      ,win: function () {
-
-      },
-
-      //When use fail, show sorry screen
-      sorry: function () {
-
       }
 
   })
@@ -345,16 +356,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     templateFail: _.template($('#tpl-result-board-fail').html()),
 
     render: function () {
-      console.log('Ok, show the result board here')
       this.show()
     },
 
     initialize: function () {
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(winners, 'add', this.addOne)
+      this.listenTo(winners, 'reset', this.addAll)
+      winners.fetch()
     },
 
     show: function () {
-      console.log(this.model.toJSON())
       if (true===this.model.get('won')) {
         r.sound.blah.play()
         $('.content', this.$el).html(this.template(this.model.toJSON()))                    
@@ -370,22 +382,108 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage'], function ($
     },
 
     events : {
-      'click .close-board' : 'hide'
+      'click .close-board' : 'hide',
+      'click .new-winner'  : 'createWinner'
+    },
+
+    createWinner : function () {
+      winners.create({
+        name:  $('.winner-name', this.$el).val(),
+        phone: $('.winner-phone', this.$el).val(),
+        item:  this.model.get('name')
+      })  
+      $('.winner-name', this.$el).val('')
+      $('.winner-phone', this.$el).val('')
+      this.$el.slideUp().hide()
+    },
+
+    addOne : function (winner) {
+      var view = new WinnerView({model: winner})
+      view.render()
+      console.log(view.el)
+      $('tbody', '#winner-list').append(view.el)
+    },
+
+    addAll: function () {
+      console.log(winners)
+      winners.each(this.addOne, this)
     }
 
   })
 
+  var RewardStockCpView = Backbone.View.extend({
+    el: '#reward-stock-cp',
+    template: _.template($('#tpl-reward-stock').html()),
+
+    render: function () {
+      $('.modal-body tbody', this.$el).html(this.template({rewards: this.collection.toJSON()}))
+    }, 
+
+    initialize: function () {
+      this.listenTo(this.collection, 'change', this.render)
+      this.render()
+    },
+
+    events: {
+      'click .action-save': 'doSave'
+    }
+
+    ,doSave: function (e) {
+      var index =  $(e.target).data('id')
+      var m = this.collection.at(index)
+      m.set({
+        name:    $('.item-name', this.$el).eq(index).val()
+        ,amount: $('.item-amount', this.$el).eq(index).val()
+        ,src:    $('.item-src', this.$el).eq(index).val()
+      })
+      m.save()
+    }
+
+  })
+
+  var WinnerModel = Backbone.Model.extend({
+    initialize: function () {
+    
+    }
+      
+    ,defaults: {
+      name: 'Winner Name',
+      item: 1,
+      phone: ''
+    }    
+  })
+
+  var WinnerCollection = Backbone.Collection.extend({
+    localStorage: new Backbone.LocalStorage("winner") // Unique name within your app.
+    ,model: WinnerModel
+  })
+  winners = new WinnerCollection()      
+
+  var WinnerView = Backbone.View.extend({
+    tagName: "tr",
+    template: _.template($('#tpl-winner-item').html()),
+
+    initialize: function () {
+      
+    },
+
+    render: function () {
+      this.$el.html(this.template(this.model.toJSON()))
+      return this
+    }
+   
+  })
+
   return {
     _initDb: function () {
-      var Rewards = new RewardCollection
+      Rewards = new RewardCollection
       Rewards.fetch()
       r.setAwards(Rewards)
     }
     
     ,init: function () {
       this._initDb()
-      appView = new AppView()
-      resultView = new ResultView({model: rotatingResult})
+      appView = new AppView()      
     }
   }
 

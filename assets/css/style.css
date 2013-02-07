@@ -90,7 +90,7 @@ a.brand {
   -moz-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.2), inset 0 -3px 7px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.2), inset 0 -3px 7px rgba(0, 0, 0, 0.2);
   color: #FFFFFF;
-  padding: 40px 0;
+  padding: 10px 0;
   position: relative;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 0, 0, 0.075);
@@ -100,16 +100,16 @@ a.brand {
 
   position: absolute;
   top: 0;
-  width: 980px;
+  width: 1000px;
   z-index: 9999;
 }
 #playboard #mc button {
-  margin: 10px;
+  margin: 10px 20px;
   z-index: 2;
 }
 #playboard #mc .content {
   text-align: center;
-  margin: 0 auto;
+  margin: 0 10px;
 }
 #playboard #arrow {
   background: url(../img/arrow.png);
@@ -119,19 +119,22 @@ a.brand {
   width: 65px;
   height: 90px;
 }
+#reward-stock-cp {
+  width: 600px;
+}
+#toggle-reward-stock {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+#winner-list {
+  width: 800px;
+}
+#toggle-winner-list {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
 .preloader {
   display: none;
-  background: url("../img/gift/1.png");
-  background: url("../img/gift/2.png");
-  background: url("../img/gift/3.png");
-  background: url("../img/gift/4.png");
-  background: url("../img/gift/5.png");
-  background: url("../img/gift/6.png");
-  background: url("../img/gift/7.png");
-  background: url("../img/gift/8.png");
-  background: url("../img/gift/9.png");
-  background: url("../img/gift/10.png");
-  background: url("../img/gift/11.png");
-  background: url("../img/gift/12.png");
-  background: none;
 }
