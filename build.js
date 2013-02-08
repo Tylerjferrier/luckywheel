@@ -1,4 +1,5 @@
 ({
+    //optimize: "none",
     baseUrl: "./scripts",
     paths: {
         jquery: 'jquery.min',
@@ -13,6 +14,53 @@
         'localStorage': 'backbone.localStorage-min',
         easing: 'jquery.easing.1.3'
     },
+
+    shim: {
+        "underscore": {
+            "exports": "_"
+        },
+        
+        "easing" : {
+            "deps": ["jquery"],
+        },
+
+        "bootstrap" : {
+            "deps": ["jquery"],  
+        },
+
+        "backbone": {
+            // Depends on underscore/lodash and jQuery
+            "deps": ["underscore", "jquery"],
+
+            // Exports the global window.Backbone object
+            "exports": "Backbone"
+        },
+
+        "localStorage" : {
+            // Depends on underscore/lodash and jQuery
+            "deps": ["backbone"]
+        },
+
+        'transform': {
+            deps: [
+                'jquery'
+            ]
+             //,"exports": "transform"
+        },
+
+        'buzz': {
+            exports: 'buzz'
+        }
+
+        ,worker: {
+            exports : 'worker'
+        },
+
+        'parse': {            
+            exports: 'Parse'
+        } 
+    },
+
     name: "main",
     out: "scripts/main-build.js"
 })
