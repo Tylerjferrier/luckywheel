@@ -164,7 +164,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           , totalE=0
           , extra = 0
           , five =0
-        if (randomProb < 5)  {                                                                    //CeeNee Group --5%
+        if (randomProb < 5) {                                                                    //CeeNee Group --5%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
@@ -173,8 +173,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
           else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
           else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
-        }            
-        
+        }
+
         else if (randomProb < 15) {                                                               //Sponsor Group --10%          
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
@@ -286,6 +286,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
       }
 
       ,won : function () {
+        //sub_gift
         rotatingResult.set({
           item: this.get('name')
           ,src: this.get('src')
