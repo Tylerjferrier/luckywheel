@@ -190,8 +190,6 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           extra = Math.random() * 100          
           console && console.log("EXTRA CASE: " + extra)
           totalE=0
-          console && console.log(awards.at(9))
-          console && console.log(awards.at(9).get('amount'))
           if (extra < (totalE += this.extraChance[0]) && awards.at(0).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
           else if (extra < (totalE += this.extraChance[1]) && awards.at(6).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
           else if ( extra < (totalE += this.extraChance[2]) && awards.at(8).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
