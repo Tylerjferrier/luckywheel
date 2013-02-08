@@ -14,5 +14,5 @@
         easing: 'jquery.easing.1.3'
     },
     name: "main",
-    out: "scripts/script.min.js"
+    out: "scripts/main-build.js"
 })
