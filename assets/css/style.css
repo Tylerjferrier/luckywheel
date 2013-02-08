@@ -1,5 +1,6 @@
 body {
   padding-top: 40px;
+  background: url("../img/p/shattered.png") repeat top right;
 }
 #wheel {
   background: url("../img/wheel.png") no-repeat;
