@@ -21,19 +21,20 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
         this.awards = this._awards = [
-            {sku: 'ceenee_usb', name:"USB",chance:"45",amount:50, src: 'usb.png', w: 10}, 
-            {sku: 'queen_hair_nail', name:"Queen's Hair",chance:"10",amount:3, src: '1queen.png', w: 90},
-            {sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount:20, src: 'ceenee_50.png',w: 30},
-            {sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"10",amount:1, src: '3bodywork.png',w: 50},
-            {sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
-            {sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:"10",amount: 100, src: 'ceenee_30.png',w: 70},
-            {sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
-            {sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
-            {sku: 'hungphat_usa', name:"Hung Phat",chance:"10",amount:0, src: '6hungphat.png',w: 100},
-            {sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
-            {sku: 'lee_coffee', name:"1 Coffee from Lee Sandwiches",chance:"23",amount:160, src: 'lee_coffee.png', w: 120},
-            {sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10}, 
+            {pt: 0, sku: 'ceenee_usb', name:"USB",chance:"45",amount:50, src: 'usb.png', w: 10}, 
+            {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:"10",amount:3, src: '1queen.png', w: 90},
+            {pt: 2, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount:20, src: 'ceenee_50.png',w: 30},
+            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
+            {pt: 4, sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"10",amount:1, src: '3bodywork.png',w: 50},
+            {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
+            {pt: 6, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:"10",amount: 100, src: 'ceenee_30.png',w: 70},
+            {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
+            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
+            {pt: 9, sku: 'hungphat_usa', name:"Hung Phat",chance:"10",amount:0, src: '6hungphat.png',w: 100},
+            {pt: 10, sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
+            {pt: 11, sku: 'lee_coffee', name:"1 Coffee from Lee Sandwiches",chance:"23",amount:160, src: 'lee_coffee.png', w: 120},
+            {pt: 12, sku: 'spin_twice', name:"2 Free Spin"},
+            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10}
         ]
 
         
