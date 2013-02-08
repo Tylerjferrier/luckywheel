@@ -190,14 +190,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           else if (ceenee < (totalC += parseInt(awards.at(0).get('chance'))) && parseInt(awards.at(0).get('amount')) > 0) wantedSlot = 1       //USB 45%
           else if (awards.at(13).get('amount') > 0) wantedSlot = 14                                                                            //SD 40%
         }                  
-        else if (randomProb < 100 && sumSponsor > 0) {                                                               //Sponsor Group --20%          
+        else if (randomProb < 15 && sumSponsor > 0) {                                                               //Sponsor Group --20%          
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
           if (five < (totalS += parseInt(awards.at(1).get('chance'))) && parseInt(awards.at(1).get('amount')) > 0) wantedSlot = 2               //Queen's Hair 10%
-          // else if (five < (totalS += parseInt(awards.at(4).get('chance'))) && parseInt(awards.at(4).get('amount')) > 0) wantedSlot = 5          //BodyShop 10%
-          // else if (five < (totalS += parseInt(awards.at(9).get('chance'))) && parseInt(awards.at(9).get('amount')) > 0) wantedSlot = 10         //StateFarm 10%
-          else if (five < (totalS += 100) && parseInt(awards.at(9).get('amount')) > 0) wantedSlot = 10         //StateFarm 10%          
+          else if (five < (totalS += parseInt(awards.at(4).get('chance'))) && parseInt(awards.at(4).get('amount')) > 0) wantedSlot = 5          //BodyShop 10%
+          else if (five < (totalS += parseInt(awards.at(9).get('chance'))) && parseInt(awards.at(9).get('amount')) > 0) wantedSlot = 10         //StateFarm 10%
           else if (five < (totalS += parseInt(awards.at(14).get('chance'))) && parseInt(awards.at(14).get('amount')) > 0) wantedSlot = 15       //Lee Finan 10%          
           else if (parseInt(awards.at(11).get('amount')) > 0) wantedSlot = 12                                                         //Lee 60%
         }                 
@@ -314,7 +313,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           
           do {
             innerRewardIndex = Math.round(Math.random() * (innerGift.length-1))          
-          } while (innerGift[innerRewardIndex].amount>0)
+          } while (innerGift[innerRewardIndex].amount<=0)
+
           innerGift[innerRewardIndex].amount = innerGift[innerRewardIndex].amount-1
           this.set('inner_gift', innerGift)
 
