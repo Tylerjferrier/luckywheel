@@ -24,20 +24,52 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             {pt: 0, sku: 'ceenee_usb', name:"USB",chance:45,amount:50, src: 'usb.png', w: 10}, 
             {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:10,amount:3, src: '1queen.png', w: 90},
             {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:10,amount:20, src: 'ceenee_30.png',w: 30},
-            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:10,amount:5, src: 'cutee.jpg', w: 40},
+            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:10,amount:2, src: 'cutee.jpg', w: 40},
+<<<<<<< HEAD
+            {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: '3bodywork.png',w: 50
+              ,inner_gift: [
+                {amount: 1, name: '$100 off coupon'}, 
+                {amount: 2, name: '$100 off coupon'}, 
+                {amount: 3, name: '$100 off coupon'}
+              ]
+            },
+            {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
+            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:2,amount: 100, src: 'ceenee_50.png',w: 70},
+            {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:0,amount:0, src: 'beegee.jpg', w: 80},
+            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:60,amount:500, src: 'ceenee_20.png',w: 20},
+            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:10,amount:3, src: 'tinavu.png',w: 100
+             ,inner_gift: [
+                {amount: 1, name: 'iPod Shuffle'}, 
+                {amount: 1, name: 'Lucky Japanese Cat'}, 
+                {amount: 1, name: ' iPhone 4 Docking Station'}
+              ] 
+            },
+            {pt: 10, sku: 'ceenee_mini', name:"mini",chance:5,amount:2, src: 'mini.jpg',w: 110},
+            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:70,amount:210, src: 'lee_coffee.png', w: 120
+              ,inner_gift: [
+                {amount: 50, name: '$20 coupons for Lee\'s Tax & Financial.'}, 
+                {amount: 160, name: 'Lee Sandwiches Coffee Coupon'}
+              ] 
+            },
+            {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'sad-face.png', w:0},
+            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:40,amount:50, src: 'sd.png', w: 10},
+=======
             {pt: 4, sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:10,amount:1, src: '3bodywork.png',w: 50},
-            {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
-            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount: 100, src: 'ceenee_50.png',w: 70},
-            {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
-            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
-            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:"10",amount:3, src: '6hungphat.png',w: 100},
-            {pt: 10, sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
+            {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
+            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:2,amount: 40, src: 'ceenee_50.png',w: 70},
+            {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:0,amount:0, src: 'beegee.jpg', w: 80},
+            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:60,amount:120, src: 'ceenee_20.png',w: 20},
+            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:10,amount:3, src: '6hungphat.png',w: 100},
+            {pt: 10, sku: 'ceenee_mini', name:"mini",chance:5,amount:2, src: 'mini.jpg',w: 110},
             {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:70,amount:160, src: 'lee_coffee.png', w: 120},
             {pt: 12, sku: 'spin_twice', name:"Free Spin x2 !!", chance:10, amount:999999, src: 'sad-face.png', w:0},
             {pt: 13, sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10},
-            {pt: 14, sku: 'ceenee_sorry', name: "Sorry", chance:"10",amount:99999, src:'sad-face.png', w:0}
+>>>>>>> 52426f71b3fc7dfe062cdc8bbfc11c707c69709b
+            {pt: 14, sku: 'ceenee_sorry', name: "Sorry", chance:10,amount:99999, src:'sad-face.png', w:0}
         ]
 
+        this.extraChance = [2.5, 2.5, 23]   //SD , USB , Lee 
+        
         this.drawInterval = 30; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
@@ -49,7 +81,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
         this.spinTimeTotal = 0;
         this.count = 0;
 
-        this.extraChance = [5, 10, 75]        
+            
 
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
@@ -150,57 +182,53 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           , totalE=0
           , extra = 0
           , five =0
-<<<<<<< HEAD
-        if (randomProb < 5) {                                                                    //CeeNee Group --5%
-=======
-        var sumCeeNee = awards.at(7).get('amount') 
-                      + awards.at(5).get('amount') 
-                      + awards.at(10).get('amount')
-                      + awards.at(3).get('amount') 
-                      + awards.at(0).get('amount')
-                      + awards.at(13).get('amount')    
+        var sumCeeNee  =  awards.at(7).get('amount')    //beegee
+                        + awards.at(5).get('amount')    //miniPlus
+                        + awards.at(10).get('amount')   //mini
+                        + awards.at(3).get('amount')    //cuTee
+                        + awards.at(0).get('amount')    //USB
+                        + awards.at(13).get('amount')   //SD
+        var sumSponsor =  awards.at(1).get('amount')    //queen
+                        + awards.at(4).get('amount')    //mientay
+                        + awards.at(11).get('amount')   //lee
+                        + awards.at(9).get('amount')    //statefarm           
 
-                           
-
-        if (randomProb < 5)  {                                                                    //CeeNee Group --10%
->>>>>>> 9be98275b2ab6f62da05edc5d0e796c636c2ed9d
+        if (randomProb < 10 && sumCeeNee > 0)  {                                                                    //CeeNee Group --10%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
-          if (ceenee < (totalC += awards.at(7).get('chance')) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0%  
-          else if (ceenee < (totalC += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
-          else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
-          else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
-          else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
-<<<<<<< HEAD
-        }
-
-        else if (randomProb < 15) {                                                               //Sponsor Group --10%          
-=======
-        }            
-        
-        else if (randomProb < 15) {                                                               //Sponsor Group --20%          
->>>>>>> 9be98275b2ab6f62da05edc5d0e796c636c2ed9d
+          if (ceenee < (totalC += parseInt(awards.at(7).get('chance'))) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0%  
+          else if (ceenee < (totalC += parseInt(awards.at(5).get('chance'))) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 0%
+          else if (ceenee < (totalC += parseInt(awards.at(10).get('chance'))) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < (totalC += parseInt(awards.at(3).get('chance'))) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
+          else if (ceenee < (totalC += parseInt(awards.at(0).get('chance'))) && awards.at(0).get('amount') > 0) wantedSlot = 1       //USB 45%
+          else if (awards.at(13).get('amount') > 0) wantedSlot = 14                                                        //SD 40%
+        }                  
+        else if (randomProb < 30 && sumSponsor > 0) {                                                               //Sponsor Group --20%          
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
-          if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 3              //AutoRepair 15%
-          else if (five < (totalS += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < (totalS += awards.at(1).get('chance')) && awards.at(1).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
-          else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
-          else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                                 //Calendar 40%
-        }         
-        
-        else {                                                                                    //Extra Group --85%
+          if (five < (totalS += parseInt(awards.at(1).get('chance'))) && awards.at(1).get('amount') > 0) wantedSlot = 2               //Queen's Hair 10%
+          else if (five < (totalS += parseInt(awards.at(4).get('chance'))) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 10%
+          else if (five < (totalS += parseInt(awards.at(9).get('chance'))) && awards.at(9).get('amount') > 0) wantedSlot = 10         //StateFarm 15%
+          else if (awards.at(11).get('amount') > 0) wantedSlot = 12                                                         //Lee 70%
+        }                 
+        else {                                                                                                      //Extra Group --70%
           extra = Math.random() * 100          
           console && console.log("EXTRA CASE: " + extra)
           totalE=0
-          if (extra < (totalE += this.extraChance[0]) && awards.at(0).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
-          else if (extra < (totalE += this.extraChance[1]) && awards.at(6).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if ( extra < (totalE += this.extraChance[2]) && awards.at(8).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
-          else  wantedSlot = 12                                                                       //Sorry  35%
+          if (extra < (totalE += parseInt(this.extraChance[0])) && awards.at(13).get('amount') > 0) wantedSlot = 14                    //SD 2.5%          
+          else if (extra < (totalE += parseInt(this.extraChance[1])) && awards.at(0).get('amount') > 0) wantedSlot = 1                 //USB 2.5%
+          else if ( extra < (totalE += parseInt(this.extraChance[2])) && awards.at(11).get('amount') > 0) wantedSlot = 12              //Lee 20%
+          else if (extra < (totalE += parseInt(awards.at(6).get('chance'))) && awards.at(6).get('amount') > 0) wantedSlot = 7          //Ceenee $50- 10%
+          else if (extra < (totalE += parseInt(awards.at(2).get('chance'))) && awards.at(2).get('amount') > 0) wantedSlot = 3          //Ceenee $30- 20%
+          else if (extra < (totalE += parseInt(awards.at(8).get('chance'))) && awards.at(8).get('amount') > 0) wantedSlot = 9          //Ceenee $20- 30%                
+          else if (extra < (totalE += parseInt(awards.at(12).get('chance'))) && awards.at(12).get('amount') > 0) wantedSlot = 13       //SpinTwice 10%   
+          else  wantedSlot = 15                                                                                                        //Sorry  5%
         }
-
+        console.log("TotalC is: " + totalC)
+        console.log("TotalS is: " + totalS)
+        console.log("TotalE is: " + totalE)
         // wantedSlot = 11             /*Test wantedSlot*/
          
         var min = (2*180/15)* (15 - wantedSlot) +8
@@ -293,14 +321,33 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
       }
 
       ,won : function () {
-        //sub_gift
-        rotatingResult.set({
-          item: this.get('name')
-          ,src: this.get('src')
-          ,won: 'ceenee_sorry' === this.get('sku')? false:true
-          ,forItem: this.get('id')
-          ,rnd: Math.random() //to force a update o rotatingResult model
-        })        
+        var innerGift, innerRewardIndex;
+        if (this.get('inner_gift')) {
+          innerGift = this.get('inner_gift')
+          
+          do {
+            innerRewardIndex = Math.round(Math.random() * (innerGift.length-1))          
+          } while (innerGift[innerRewardIndex].amount>0)
+          innerGift[innerRewardIndex].amount = innerGift[innerRewardIndex].amount-1
+          this.set('inner_gift', innerGift)
+
+          rotatingResult.set({
+            item: innerGift[innerRewardIndex].name
+            ,src: this.get('src')            
+            ,won: 'ceenee_sorry' === this.get('sku')? false:true
+            ,forItem: this.get('id')
+            ,rnd: Math.random() //to force a update o rotatingResult model
+          })
+
+        } else {          
+          rotatingResult.set({
+            item: this.get('name')
+            ,src: this.get('src')
+            ,won: 'ceenee_sorry' === this.get('sku')? false:true
+            ,forItem: this.get('id')
+            ,rnd: Math.random() //to force a update o rotatingResult model
+          })  
+        }        
         this.set('amount', this.get('amount') - 1)
         this.save()
       }

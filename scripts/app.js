@@ -55,6 +55,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             {pt: 14, sku: 'ceenee_sorry', name: "Sorry", chance:10,amount:99999, src:'sad-face.png', w:0}
         ]
 
+        this.extraChance = [2.5, 2.5, 23]   //SD , USB , Lee 
+        
         this.drawInterval = 30; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
@@ -66,7 +68,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
         this.spinTimeTotal = 0;
         this.count = 0;
 
-        this.extraChance = [5, 10, 75]        
+            
 
         this.wheelRadius = 500;
         this.canvas = document.getElementById("wheel");
@@ -167,47 +169,53 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           , totalE=0
           , extra = 0
           , five =0
-        var sumCeeNee = awards.at(7).get('amount') 
-                      + awards.at(5).get('amount') 
-                      + awards.at(10).get('amount')
-                      + awards.at(3).get('amount') 
-                      + awards.at(0).get('amount')
-                      + awards.at(13).get('amount')    
+        var sumCeeNee  =  awards.at(7).get('amount')    //beegee
+                        + awards.at(5).get('amount')    //miniPlus
+                        + awards.at(10).get('amount')   //mini
+                        + awards.at(3).get('amount')    //cuTee
+                        + awards.at(0).get('amount')    //USB
+                        + awards.at(13).get('amount')   //SD
+        var sumSponsor =  awards.at(1).get('amount')    //queen
+                        + awards.at(4).get('amount')    //mientay
+                        + awards.at(11).get('amount')   //lee
+                        + awards.at(9).get('amount')    //statefarm           
 
-                           
-
-        if (randomProb < 5)  {                                                                    //CeeNee Group --10%
+        if (randomProb < 10 && sumCeeNee > 0)  {                                                                    //CeeNee Group --10%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
-          if (ceenee < (totalC += awards.at(7).get('chance')) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0%  
-          else if (ceenee < (totalC += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
-          else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
-          else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
-          else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
-        }            
-        
-        else if (randomProb < 15) {                                                               //Sponsor Group --20%          
+          if (ceenee < (totalC += parseInt(awards.at(7).get('chance'))) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0%  
+          else if (ceenee < (totalC += parseInt(awards.at(5).get('chance'))) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 0%
+          else if (ceenee < (totalC += parseInt(awards.at(10).get('chance'))) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
+          else if (ceenee < (totalC += parseInt(awards.at(3).get('chance'))) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
+          else if (ceenee < (totalC += parseInt(awards.at(0).get('chance'))) && awards.at(0).get('amount') > 0) wantedSlot = 1       //USB 45%
+          else if (awards.at(13).get('amount') > 0) wantedSlot = 14                                                        //SD 40%
+        }                  
+        else if (randomProb < 30 && sumSponsor > 0) {                                                               //Sponsor Group --20%          
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
-          if (five < (totalS += awards.at(2).get('chance')) && awards.at(2).get('amount') > 0) wantedSlot = 3              //AutoRepair 15%
-          else if (five < (totalS += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
-          else if (five < (totalS += awards.at(1).get('chance')) && awards.at(1).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
-          else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
-          else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                                 //Calendar 40%
-        }         
-        
-        else {                                                                                    //Extra Group --85%
+          if (five < (totalS += parseInt(awards.at(1).get('chance'))) && awards.at(1).get('amount') > 0) wantedSlot = 2               //Queen's Hair 10%
+          else if (five < (totalS += parseInt(awards.at(4).get('chance'))) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 10%
+          else if (five < (totalS += parseInt(awards.at(9).get('chance'))) && awards.at(9).get('amount') > 0) wantedSlot = 10         //StateFarm 15%
+          else if (awards.at(11).get('amount') > 0) wantedSlot = 12                                                         //Lee 70%
+        }                 
+        else {                                                                                                      //Extra Group --70%
           extra = Math.random() * 100          
           console && console.log("EXTRA CASE: " + extra)
           totalE=0
-          if (extra < (totalE += this.extraChance[0]) && awards.at(0).get('amount') > 0) wantedSlot = 1                                       //USB 5%          
-          else if (extra < (totalE += this.extraChance[1]) && awards.at(6).get('amount') > 0) wantedSlot = 7                                 //Calendar 5%
-          else if ( extra < (totalE += this.extraChance[2]) && awards.at(8).get('amount') > 0) wantedSlot = 9                                 //Pen 55%
-          else  wantedSlot = 12                                                                       //Sorry  35%
+          if (extra < (totalE += parseInt(this.extraChance[0])) && awards.at(13).get('amount') > 0) wantedSlot = 14                    //SD 2.5%          
+          else if (extra < (totalE += parseInt(this.extraChance[1])) && awards.at(0).get('amount') > 0) wantedSlot = 1                 //USB 2.5%
+          else if ( extra < (totalE += parseInt(this.extraChance[2])) && awards.at(11).get('amount') > 0) wantedSlot = 12              //Lee 20%
+          else if (extra < (totalE += parseInt(awards.at(6).get('chance'))) && awards.at(6).get('amount') > 0) wantedSlot = 7          //Ceenee $50- 10%
+          else if (extra < (totalE += parseInt(awards.at(2).get('chance'))) && awards.at(2).get('amount') > 0) wantedSlot = 3          //Ceenee $30- 20%
+          else if (extra < (totalE += parseInt(awards.at(8).get('chance'))) && awards.at(8).get('amount') > 0) wantedSlot = 9          //Ceenee $20- 30%                
+          else if (extra < (totalE += parseInt(awards.at(12).get('chance'))) && awards.at(12).get('amount') > 0) wantedSlot = 13       //SpinTwice 10%   
+          else  wantedSlot = 15                                                                                                        //Sorry  5%
         }
-
+        console.log("TotalC is: " + totalC)
+        console.log("TotalS is: " + totalS)
+        console.log("TotalE is: " + totalE)
         // wantedSlot = 11             /*Test wantedSlot*/
          
         var min = (2*180/15)* (15 - wantedSlot) +8
