@@ -21,42 +21,27 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
         this.awards = this._awards = [
-            {pt: 0, sku: 'ceenee_usb', name:"USB",chance:"45",amount:50, src: 'usb.png', w: 10}, 
-            {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:"10",amount:3, src: '1queen.png', w: 90},
-            {pt: 2, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount:20, src: 'ceenee_50.png',w: 30},
-            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:"10",amount:5, src: 'cutee.jpg', w: 40},
-            {pt: 4, sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:"10",amount:1, src: '3bodywork.png',w: 50},
+            {pt: 0, sku: 'ceenee_usb', name:"USB",chance:45,amount:50, src: 'usb.png', w: 10}, 
+            {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:10,amount:3, src: '1queen.png', w: 90},
+            {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:10,amount:20, src: 'ceenee_30.png',w: 30},
+            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:10,amount:5, src: 'cutee.jpg', w: 40},
+            {pt: 4, sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:10,amount:1, src: '3bodywork.png',w: 50},
             {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
-            {pt: 6, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:"10",amount: 100, src: 'ceenee_30.png',w: 70},
+            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount: 100, src: 'ceenee_50.png',w: 70},
             {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
             {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
-            {pt: 9, sku: 'hungphat_usa', name:"Hung Phat",chance:"10",amount:0, src: '6hungphat.png',w: 100},
+            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:"10",amount:3, src: '6hungphat.png',w: 100},
             {pt: 10, sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
-            {pt: 11, sku: 'lee_coffee', name:"1 Coffee from Lee Sandwiches",chance:"23",amount:160, src: 'lee_coffee.png', w: 120},
-            {pt: 12, sku: 'spin_twice', name:"2 Free Spin"},
-            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10}
+            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:70,amount:160, src: 'lee_coffee.png', w: 120},
+            {pt: 12, sku: 'spin_twice', name:"Free Spin x2 !!", chance:10, amount:999999, src: 'sad-face.png', w:0},
+            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10},
+            {pt: 14, sku: 'ceenee_sorry', name: "Sorry", chance:"10",amount:99999, src:'sad-face.png', w:0}
         ]
-
-        
-        this.avatars = [
-            "assets/img/gift/1.png",
-            "assets/img/gift/1.png",
-            "assets/img/gift/2.png",
-            "assets/img/gift/3.png",
-            "assets/img/gift/4.png",
-            "assets/img/gift/5.png",
-            "assets/img/gift/6.png",
-            "assets/img/gift/7.png",
-            "assets/img/gift/8.png",
-            "assets/img/gift/9.png",
-            "assets/img/gift/10.png",
-            "assets/img/gift/11.png",
-            "assets/img/gift/12.png"]
 
         this.drawInterval = 30; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
-        this.arc = Math.PI / 6; 
+        this.arc = 2*Math.PI / 15; 
         this.spinTimeout = null;
 
         this.spinArcStart = 10;
@@ -114,12 +99,12 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     }
 
     Roulette.prototype.loadResource = function () {
-        (function () {
-            for (var i = 0; i <= 11; i++) {
-                this.avatars[i] = new Image();
-                this.avatars[i].src = "assets/img/gift/" + (i + 1) + ".png";
-            }
-        }).call(this)      
+        // (function () {
+        //     for (var i = 0; i <= 11; i++) {
+        //         this.avatars[i] = new Image();
+        //         this.avatars[i].src = "assets/img/gift/" + (i + 1) + ".png";
+        //     }
+        // }).call(this)      
         this.wheelImage = new Image()
         this.wheelImage.src = "assets/img/wheel.png"
     }
@@ -165,18 +150,27 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           , totalE=0
           , extra = 0
           , five =0
-        if (randomProb < 5)  {                                                                    //CeeNee Group --5%
+        var sumCeeNee = awards.at(7).get('amount') 
+                      + awards.at(5).get('amount') 
+                      + awards.at(10).get('amount')
+                      + awards.at(3).get('amount') 
+                      + awards.at(0).get('amount')
+                      + awards.at(13).get('amount')    
+
+                           
+
+        if (randomProb < 5)  {                                                                    //CeeNee Group --10%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
-          if (ceenee < (totalC += awards.at(7).get('chance')) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0.1%  
+          if (ceenee < (totalC += awards.at(7).get('chance')) && awards.at(7).get('amount') > 0) wantedSlot = 8            //BeeGee 0%  
           else if (ceenee < (totalC += awards.at(5).get('chance')) && awards.at(5).get('amount') > 0) wantedSlot = 6       //miniPlus 2%
           else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
           else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
           else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
         }            
         
-        else if (randomProb < 15) {                                                               //Sponsor Group --10%          
+        else if (randomProb < 15) {                                                               //Sponsor Group --20%          
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
@@ -184,7 +178,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           else if (five < (totalS += awards.at(4).get('chance')) && awards.at(4).get('amount') > 0) wantedSlot = 5          //BodyShop 15%
           else if (five < (totalS += awards.at(1).get('chance')) && awards.at(1).get('amount') > 0) wantedSlot = 2          //Queen's Hair 15%
           else if (five < (totalS += awards.at(9).get('chance')) && awards.at(9).get('amount') > 0) wantedSlot = 10       //HungPhat 15%
-          else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                               //Calendar 40%
+          else if (awards.at(7).get('amount') > 0) wantedSlot = 7                                                 //Calendar 40%
         }         
         
         else {                                                                                    //Extra Group --85%
@@ -197,8 +191,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           else  wantedSlot = 12                                                                       //Sorry  35%
         }
 
-        var min = 30 * (12 - wantedSlot) + 8
-        var max = 30 * (13 - wantedSlot) - 8
+        // wantedSlot = 11             /*Test wantedSlot*/
+         
+        var min = (2*180/15)* (15 - wantedSlot) +8
+        var max = (2*180/15)* (16 - wantedSlot) -8
         wantedAngle = Math.random() * (max - min) + min;
 
         this.startAngle = 0;
