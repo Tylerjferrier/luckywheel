@@ -24,35 +24,18 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             {pt: 0, sku: 'ceenee_usb', name:"USB",chance:45,amount:50, src: 'usb.png', w: 10}, 
             {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:10,amount:3, src: '1queen.png', w: 90},
             {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:10,amount:20, src: 'ceenee_30.png',w: 30},
-            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:10,amount:2, src: 'cutee.jpg', w: 40},
-            {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: '3bodywork.png',w: 50
-              ,inner_gift: [
-                {amount: 1, name: '$100 off coupon'}, 
-                {amount: 2, name: '$100 off coupon'}, 
-                {amount: 3, name: '$100 off coupon'}
-              ]
-            },
-            {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
-            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:2,amount: 100, src: 'ceenee_50.png',w: 70},
-            {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:0,amount:0, src: 'beegee.jpg', w: 80},
-            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:60,amount:500, src: 'ceenee_20.png',w: 20},
-            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:10,amount:3, src: 'tinavu.png',w: 100
-             ,inner_gift: [
-                {amount: 1, name: 'iPod Shuffle'}, 
-                {amount: 1, name: 'Lucky Japanese Cat'}, 
-                {amount: 1, name: ' iPhone 4 Docking Station'}
-              ] 
-            },
-            {pt: 10, sku: 'ceenee_mini', name:"mini",chance:5,amount:2, src: 'mini.jpg',w: 110},
-            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:70,amount:210, src: 'lee_coffee.png', w: 120
-              ,inner_gift: [
-                {amount: 50, name: '$20 coupons for Lee\'s Tax & Financial.'}, 
-                {amount: 160, name: 'Lee Sandwiches Coffee Coupon'}
-              ] 
-            },
-            {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'sad-face.png', w:0},
-            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:40,amount:50, src: 'sd.png', w: 10},
-            {pt: 14, sku: 'ceenee_sorry', name: "Sorry", chance:10,amount:99999, src:'sad-face.png', w:0}
+            {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:10,amount:5, src: 'cutee.jpg', w: 40},
+            {pt: 4, sku: 'mt_body_work', name:"MienTay $200 Coupon",chance:10,amount:1, src: '3bodywork.png',w: 50},
+            {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:"0",amount:0,src: 'miniplus.jpg', w: 60},
+            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:"2",amount: 100, src: 'ceenee_50.png',w: 70},
+            {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:"0",amount:0, src: 'beegee.jpg', w: 80},
+            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:"60",amount:500, src: 'ceenee_20.png',w: 20},
+            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:"10",amount:3, src: '6hungphat.png',w: 100},
+            {pt: 10, sku: 'ceenee_mini', name:"mini",chance:"5",amount:2, src: 'mini.jpg',w: 110},
+            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:70,amount:160, src: 'lee_coffee.png', w: 120},
+            {pt: 12, sku: 'spin_twice', name:"Free Spin x2 !!", chance:10, amount:999999, src: 'sad-face.png', w:0},
+            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:"40",amount:50, src: 'sd.png', w: 10},
+            {pt: 14, sku: 'ceenee_sorry', name: "Sorry", chance:"10",amount:99999, src:'sad-face.png', w:0}
         ]
 
         this.drawInterval = 30; //redraw each this amount of ms 
@@ -167,6 +150,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           , totalE=0
           , extra = 0
           , five =0
+<<<<<<< HEAD
+        if (randomProb < 5) {                                                                    //CeeNee Group --5%
+=======
         var sumCeeNee = awards.at(7).get('amount') 
                       + awards.at(5).get('amount') 
                       + awards.at(10).get('amount')
@@ -177,6 +163,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
                            
 
         if (randomProb < 5)  {                                                                    //CeeNee Group --10%
+>>>>>>> 9be98275b2ab6f62da05edc5d0e796c636c2ed9d
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
@@ -185,9 +172,15 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           else if (ceenee < (totalC += awards.at(10).get('chance')) && awards.at(10).get('amount') > 0) wantedSlot = 11    //Mini 5%
           else if (ceenee < (totalC += awards.at(3).get('chance')) && awards.at(3).get('amount') > 0) wantedSlot = 4       //CuTee 10%
           else if (awards.at(1).get('amount') > 0) wantedSlot = 1                                              //USB 83%
+<<<<<<< HEAD
+        }
+
+        else if (randomProb < 15) {                                                               //Sponsor Group --10%          
+=======
         }            
         
         else if (randomProb < 15) {                                                               //Sponsor Group --20%          
+>>>>>>> 9be98275b2ab6f62da05edc5d0e796c636c2ed9d
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
@@ -300,33 +293,14 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
       }
 
       ,won : function () {
-        var innerGift, innerRewardIndex;
-        if (this.get('inner_gift')) {
-          innerGift = this.get('inner_gift')
-          
-          do {
-            innerRewardIndex = Math.round(Math.random() * (innerGift.length-1))          
-          } while (innerGift[innerRewardIndex].amount>0)
-          innerGift[innerRewardIndex].amount = innerGift[innerRewardIndex].amount-1
-          this.set('inner_gift', innerGift)
-
-          rotatingResult.set({
-            item: innerGift[innerRewardIndex].name
-            ,src: this.get('src')            
-            ,won: 'ceenee_sorry' === this.get('sku')? false:true
-            ,forItem: this.get('id')
-            ,rnd: Math.random() //to force a update o rotatingResult model
-          })
-
-        } else {          
-          rotatingResult.set({
-            item: this.get('name')
-            ,src: this.get('src')
-            ,won: 'ceenee_sorry' === this.get('sku')? false:true
-            ,forItem: this.get('id')
-            ,rnd: Math.random() //to force a update o rotatingResult model
-          })  
-        }        
+        //sub_gift
+        rotatingResult.set({
+          item: this.get('name')
+          ,src: this.get('src')
+          ,won: 'ceenee_sorry' === this.get('sku')? false:true
+          ,forItem: this.get('id')
+          ,rnd: Math.random() //to force a update o rotatingResult model
+        })        
         this.set('amount', this.get('amount') - 1)
         this.save()
       }
