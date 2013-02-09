@@ -456,12 +456,10 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     addOne : function (winner) {
       var view = new WinnerView({model: winner})
       view.render()
-      console.log(view.el)
       $('tbody', '#winner-list').append(view.el)
     },
 
     addAll: function () {
-      console.log(winners)
       winners.each(this.addOne, this)
     }
 
