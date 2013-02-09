@@ -157,7 +157,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
 
     Roulette.prototype.spin = function () {
         spinId += 1;
-        
+        //$('body').css({backgroundImage: ()"})
+
         var randomProb = Math.random() * 100        
         var awards= this.awards
         var ceenee=0
@@ -310,7 +311,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
         var innerGift, innerRewardIndex;
         if (this.get('inner_gift')) {
           innerGift = this.get('inner_gift')
-          
+
           do {
             innerRewardIndex = Math.round(Math.random() * (innerGift.length-1))          
           } while (innerGift[innerRewardIndex].amount<=0)
@@ -489,7 +490,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
       var m = this.collection.at(index)
       m.set({
         name:    $('.item-name', this.$el).eq(index).val()
-        ,amount: $('.item-amount', this.$el).eq(index).val()
+        ,amount: parseInt($('.item-amount', this.$el).eq(index).val())
+        ,chance: parseInt($('.item-chance', this.$el).eq(index).val())
         ,src:    $('.item-src', this.$el).eq(index).val()
       })
       m.save()
