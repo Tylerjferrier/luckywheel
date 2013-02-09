@@ -11,7 +11,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     
     var rotatingResult
 
-    var definedSlot = 13
+    var definedSlot = 13    //Slot 13 is Coupon $30
 
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
@@ -23,11 +23,11 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             "#A248D6", "#304890", "#A5CFDD", "#C92F81"]
 
         this.awards = this._awards = [
-            {pt: 0, sku: 'ceenee_usb', name:"USB",chance:50,amount:50, src: 'usb.png', w: 10}, 
+            {pt: 0, sku: 'ceenee_usb', name:"2GB CeenNee USB",chance:50,amount:50, src: 'miniplus.jpg', w: 10}, 
             {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:10,amount:3, src: '1queen.png', w: 90},
-            {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:30,amount:200, src: 'ceenee_30.png',w: 30},
+            {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:30,amount:200, src: 'miniplus.jpg',w: 30},
             {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:4,amount:2, src: 'cutee.jpg', w: 40},
-            {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: 'mientay.png',w: 50
+            {pt: 4, sku: 'mt_coupon', name:"MienTay Auto Repair Coupon",chance:10,amount:3, src: 'mientay.png',w: 50
               ,inner_gift: [
                 {amount: 1, name: '$100 off coupon'}, 
                 {amount: 2, name: '$200 off coupon'}, 
@@ -35,26 +35,26 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
               ]
             },
             {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
-            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:15,amount: 40, src: 'ceenee_50.png',w: 70},
+            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:15,amount: 40, src: 'beegee.jpg',w: 70},
             {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:0,amount:0, src: 'beegee.jpg', w: 80},
-            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:30,amount:120, src: 'ceenee_20.png',w: 20},
-            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:10,amount:4, src: 'tinavu.png',w: 100
+            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:30,amount:120, src: 'mini.jpg',w: 20},
+            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:10,amount:3, src: 'tinavu.png',w: 100
              ,inner_gift: [
                 {amount: 1, name: 'iPod Shuffle'}, 
                 {amount: 1, name: 'Lucky Japanese Cat'}, 
-                {amount: 1, name: ' iPhone 4 Docking Station'}
+                {amount: 1, name: 'iPhone 4 Docking Station'}
               ] 
             },
             {pt: 10, sku: 'ceenee_mini', name:"mini",chance:2,amount:2, src: 'mini.jpg',w: 110},
-            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:50,amount:155, src: 'lee_coffee.png', w: 120},            
+            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:50,amount:155, src: 'leesandwiches.jpg', w: 120},            
             {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'htcare.png', w:0},
-            {pt: 13, sku: 'ceenee_sd', name:"SD",chance:44,amount:50, src: 'sd.png', w: 10},
+            {pt: 13, sku: 'ceenee_sd', name:"4G CeeNee SD card",chance:44,amount:50, src: 'beegee.jpg', w: 10},
             {pt: 14, sku: 'lee_financial', name: "Lee Tax &amp; Financial Coupon", chance:10,amount:56, src:'lee_financial.png', w:0}
         ]
 
         this.extraChance = [2.5, 2.5, 20]   //SD , USB , Lee 
         
-        this.drawInterval = 30; //redraw each this amount of ms 
+        this.drawInterval = 100; //redraw each this amount of ms 
         this.startAngle = 0;
         this.totalAngle = 0;
         this.arc = 2*Math.PI / 15; 
