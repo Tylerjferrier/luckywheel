@@ -48,9 +48,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             },
             {pt: 10, sku: 'ceenee_mini', name:"mini",chance:2,amount:2, src: 'mini.jpg',w: 110},
             {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:50,amount:155, src: 'lee_coffee.png', w: 120},            
-            {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'sad-face.png', w:0},
+            {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'htcare.png', w:0},
             {pt: 13, sku: 'ceenee_sd', name:"SD",chance:44,amount:50, src: 'sd.png', w: 10},
-            {pt: 14, sku: 'lee_financial', name: "Lee Financial Coupon", chance:10,amount:56, src:'sad-face.png', w:0}
+            {pt: 14, sku: 'lee_financial', name: "Lee Tax &amp; Financial Coupon", chance:10,amount:56, src:'lee_financial.png', w:0}
         ]
 
         this.extraChance = [2.5, 2.5, 20]   //SD , USB , Lee 
