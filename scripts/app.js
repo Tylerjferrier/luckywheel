@@ -496,7 +496,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     }
 
     ,doReset: function (e) {
-      VERSION_LEVEL = "reset-flag-" + Math.random
+      VERSION_LEVEL = "reset-flag-" + Math.random()
       appView.resetData()  
     }
 
