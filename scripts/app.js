@@ -30,8 +30,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: 'mientay.png',w: 50
               ,inner_gift: [
                 {amount: 1, name: '$100 off coupon'}, 
-                {amount: 2, name: '$100 off coupon'}, 
-                {amount: 3, name: '$100 off coupon'}
+                {amount: 2, name: '$200 off coupon'}, 
+                {amount: 3, name: '$300 off coupon'}
               ]
             },
             {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
