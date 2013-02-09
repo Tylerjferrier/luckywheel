@@ -42,8 +42,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
              ,inner_gift: [
                 {amount: 1, name: 'iPod Shuffle'}, 
                 {amount: 1, name: 'Lucky Japanese Cat'}, 
-                {amount: 1, name: ' iPhone 4 Docking Station'},
-                {amount: 1, name: 'Gift'}
+                {amount: 1, name: ' iPhone 4 Docking Station'}
               ] 
             },
             {pt: 10, sku: 'ceenee_mini', name:"mini",chance:2,amount:2, src: 'mini.jpg',w: 110},
