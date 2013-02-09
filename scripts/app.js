@@ -27,7 +27,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
             {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:10,amount:3, src: '1queen.png', w: 90},
             {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:30,amount:200, src: 'ceenee_30.png',w: 30},
             {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:4,amount:2, src: 'cutee.jpg', w: 40},
-            {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: '3bodywork.png',w: 50
+            {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: 'mientay.png',w: 50
               ,inner_gift: [
                 {amount: 1, name: '$100 off coupon'}, 
                 {amount: 2, name: '$100 off coupon'}, 
