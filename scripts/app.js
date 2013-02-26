@@ -24,29 +24,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
 
         this.awards = this._awards = [
             {pt: 0, sku: 'ceenee_usb', name:"USB",chance:50,amount:50, src: 'usb.png', w: 10}, 
-            {pt: 1, sku: 'queen_hair_nail', name:"Queen's Hair",chance:10,amount:3, src: '1queen.png', w: 90},
-            {pt: 2, sku: 'ceenee_30', name:"CeeNee $30 Coupon",chance:30,amount:200, src: 'ceenee_30.png',w: 30},
+            {pt: 1, sku: 'ceenee_20_1', name:"CeeNee $20 Coupon",chance:10,amount:3, src: '1queen.png', w: 90},
+            {pt: 2, sku: 'ceenee_30_1', name:"CeeNee $30 Coupon",chance:30,amount:200, src: 'ceenee_30.png',w: 30},
             {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:4,amount:2, src: 'cutee.jpg', w: 40},
-            {pt: 4, sku: 'mt_coupon', name:"MienTay Coupon",chance:10,amount:3, src: 'mientay.png',w: 50
-              ,inner_gift: [
-                {amount: 1, name: '$100 off coupon'}, 
-                {amount: 2, name: '$200 off coupon'}, 
-                {amount: 3, name: '$300 off coupon'}
-              ]
-            },
+            {pt: 4, sku: 'ceenee_30_2', name:"CeeNee $30 Coupon",chance:10,amount:3, src: 'mientay.png',w: 50},
             {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
-            {pt: 6, sku: 'ceenee_50', name:"CeeNee $50 Coupon",chance:15,amount: 40, src: 'ceenee_50.png',w: 70},
+            {pt: 6, sku: 'ceenee_50_1', name:"CeeNee $50 Coupon",chance:15,amount: 40, src: 'ceenee_50.png',w: 70},
             {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:0,amount:0, src: 'beegee.jpg', w: 80},
-            {pt: 8, sku: 'ceenee_20', name:"CeeNee $20 Coupon",chance:30,amount:120, src: 'ceenee_20.png',w: 20},
-            {pt: 9, sku: 'statefarm', name:"Tina Vu StateFarm's Prize",chance:10,amount:4, src: 'tinavu.png',w: 100
-             ,inner_gift: [
-                {amount: 1, name: 'iPod Shuffle'}, 
-                {amount: 1, name: 'Lucky Japanese Cat'}, 
-                {amount: 1, name: ' iPhone 4 Docking Station'}
-              ] 
-            },
+            {pt: 8, sku: 'ceenee_20_2', name:"CeeNee $20 Coupon",chance:30,amount:120, src: 'ceenee_20.png',w: 20},
+            {pt: 9, sku: 'ceenee_50_2', name:"CeeNee $50 Coupon",chance:10,amount:4, src: 'tinavu.png',w: 100},
             {pt: 10, sku: 'ceenee_mini', name:"mini",chance:2,amount:2, src: 'mini.jpg',w: 110},
-            {pt: 11, sku: 'lee_coffee', name:"Coffee from Lee Sandwiches",chance:50,amount:155, src: 'lee_coffee.png', w: 120},            
+            {pt: 11, sku: 'ceenee_20_3', name:"CeeNee $20 Coupon",chance:50,amount:155, src: 'lee_coffee.png', w: 120},            
             {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'htcare.png', w:0},
             {pt: 13, sku: 'ceenee_sd', name:"SD",chance:44,amount:50, src: 'sd.png', w: 10},
             {pt: 14, sku: 'lee_financial', name: "Lee Tax &amp; Financial Coupon", chance:10,amount:56, src:'lee_financial.png', w:0}
@@ -154,11 +142,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
         }
     }
 
-    Roulette.prototype.spin = function () {
-        spinId += 1;
-        //$('body').css({backgroundImage: ()"})
-
-        var randomProb = Math.random() * 100        
+    Roulette.prototype.findWantedSlot = function () {
+      var randomProb = Math.random() * 100        
         var awards= this.awards
         var ceenee=0
           , totalC=0
@@ -219,7 +204,12 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
          
         var min = (2*180/15)* (15 - wantedSlot) +8
         var max = (2*180/15)* (16 - wantedSlot) -8
-        wantedAngle = Math.random() * (max - min) + min;
+        return Math.random() * (max - min) + min;
+    }
+
+    Roulette.prototype.spin = function () {
+        spinId += 1;
+        wantedAngle = this.findWantedSlot()        
 
         this.startAngle = 0;
         this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 2
