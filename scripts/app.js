@@ -4,7 +4,7 @@ So we need to draw six times. Each time we draw two arc
 
 define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform', 'easing', 'bootstrap'], function ($, _, Backbone, buzz) {
     "use strict";
-    var VERSION_LEVEL = "0.1.0.6" //major.minor.patch.update_cache_clean_number
+    var VERSION_LEVEL = "0.1.0.7" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
     var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards, winners
@@ -24,17 +24,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
 
         this.awards = this._awards = [
             {pt: 0, sku: 'ceenee_usb', name:"USB",chance:50,amount:50, src: 'usb.png', w: 10}, 
-            {pt: 1, sku: 'ceenee_20_1', name:"CeeNee $20 Coupon",chance:10,amount:3, src: '1queen.png', w: 90},
+            {pt: 1, sku: 'ceenee_20_1', name:"CeeNee $20 Coupon",chance:10,amount:3, src: 'ceenee_20.png', w: 90},
             {pt: 2, sku: 'ceenee_30_1', name:"CeeNee $30 Coupon",chance:30,amount:200, src: 'ceenee_30.png',w: 30},
             {pt: 3, sku: 'ceenee_cutee', name:"CuTee",chance:4,amount:2, src: 'cutee.jpg', w: 40},
-            {pt: 4, sku: 'ceenee_30_2', name:"CeeNee $30 Coupon",chance:10,amount:3, src: 'mientay.png',w: 50},
+            {pt: 4, sku: 'ceenee_30_2', name:"CeeNee $30 Coupon",chance:10,amount:3, src: 'ceenee_30.png',w: 50},
             {pt: 5, sku: 'ceenee_miniplus', name:"miniPlus",chance:0,amount:0,src: 'miniplus.jpg', w: 60},
             {pt: 6, sku: 'ceenee_50_1', name:"CeeNee $50 Coupon",chance:15,amount: 40, src: 'ceenee_50.png',w: 70},
             {pt: 7, sku: 'ceenee_beegee', name:"BeeGee",chance:0,amount:0, src: 'beegee.jpg', w: 80},
             {pt: 8, sku: 'ceenee_20_2', name:"CeeNee $20 Coupon",chance:30,amount:120, src: 'ceenee_20.png',w: 20},
-            {pt: 9, sku: 'ceenee_50_2', name:"CeeNee $50 Coupon",chance:10,amount:4, src: 'tinavu.png',w: 100},
+            {pt: 9, sku: 'ceenee_50_2', name:"CeeNee $50 Coupon",chance:10,amount:4, src: 'ceenee_50.png',w: 100},
             {pt: 10, sku: 'ceenee_mini', name:"mini",chance:2,amount:2, src: 'mini.jpg',w: 110},
-            {pt: 11, sku: 'ceenee_20_3', name:"CeeNee $20 Coupon",chance:50,amount:155, src: 'lee_coffee.png', w: 120},            
+            {pt: 11, sku: 'ceenee_20_3', name:"CeeNee $20 Coupon",chance:50,amount:155, src: 'ceenee_20.png', w: 120},            
             {pt: 12, sku: 'hightech_dental', name:"High Tech Dental Coupon!!", chance:10, amount:10, src: 'htcare.png', w:0},
             {pt: 13, sku: 'ceenee_sd', name:"SD",chance:44,amount:50, src: 'sd.png', w: 10},
             {pt: 14, sku: 'lee_financial', name: "Lee Tax &amp; Financial Coupon", chance:10,amount:56, src:'lee_financial.png', w:0}
@@ -144,38 +144,38 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
 
     Roulette.prototype.findWantedSlot = function () {
       var randomProb = Math.random() * 100        
-        var awards= this.awards
-        var ceenee=0
+      var awards= this.awards
+      var ceenee=0
           , totalC=0
           , totalS=0
           , totalE=0
           , extra = 0
           , five =0
-        var sumCeeNee  =  awards.at(7).get('amount')    //beegee
+      var sumCeeNee  =  awards.at(7).get('amount')    //beegee
                         + awards.at(5).get('amount')    //miniPlus
                         + awards.at(10).get('amount')   //mini
                         + awards.at(3).get('amount')    //cuTee
                         + awards.at(0).get('amount')    //USB
                         + awards.at(13).get('amount')   //SD
-        // console.log("Sum CeeNee: " + sumCeeNee)                        
-        var sumSponsor =  awards.at(1).get('amount')    //queen
-                        + awards.at(4).get('amount')    //mientay
-                        + awards.at(11).get('amount')   //lee
-                        + awards.at(9).get('amount')    //statefarm           
-        // console.log("Sum Sponsor: " + sumSponsor) 
+      // console.log("Sum CeeNee: " + sumCeeNee)                        
+      var sumCoupon =  awards.at(1).get('amount')    
+                        + awards.at(4).get('amount') 
+                        + awards.at(11).get('amount')
+                        + awards.at(9).get('amount') 
+        // console.log("Sum Sponsor: " + sumCoupon) 
         console && console.log("RANDOM PROB: " + randomProb)
-        if (randomProb < 5 && sumCeeNee > 0)  {                                                                    //CeeNee Group --10%
+        if (randomProb < 5 && sumCeeNee > 0)  {                                                                    //CeeNee Group --5%
           ceenee = Math.random() * 100
           console && console.log("CEENEE CASE: " + ceenee)
           totalC = 0;
-          if (ceenee < (totalC += parseInt(awards.at(7).get('chance'))) && parseInt(awards.at(7).get('amount')) > 0) wantedSlot = 8            //BeeGee 0%  
+          if (ceenee < (totalC += parseInt(awards.at(7).get('chance'))) && parseInt(awards.at(7).get('amount')) > 0) wantedSlot = 8            //BeeG
           else if (ceenee < (totalC += parseInt(awards.at(5).get('chance'))) && parseInt(awards.at(5).get('amount')) > 0) wantedSlot = 6       //miniPlus 0%
           else if (ceenee < (totalC += parseInt(awards.at(10).get('chance'))) && parseInt(awards.at(10).get('amount')) > 0) wantedSlot = 11    //Mini 5%
           else if (ceenee < (totalC += parseInt(awards.at(3).get('chance'))) && parseInt(awards.at(3).get('amount')) > 0) wantedSlot = 4       //CuTee 10%
           else if (ceenee < (totalC += parseInt(awards.at(0).get('chance'))) && parseInt(awards.at(0).get('amount')) > 0) wantedSlot = 1       //USB 45%
           else if (awards.at(13).get('amount') > 0) wantedSlot = 14                                                                            //SD 40%
         }                  
-        else if (randomProb < 15 && sumSponsor > 0) {                                                               //Sponsor Group --20%          
+        else if (randomProb < 55 && sumCoupon > 0) {                                                               //Coupon Group --40%          
           five = Math.random() * 100      
           console && console.log("COUPON CASE: " + five)
           totalS = 0;  
@@ -185,7 +185,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
           else if (five < (totalS += parseInt(awards.at(14).get('chance'))) && parseInt(awards.at(14).get('amount')) > 0) wantedSlot = 15       //Lee Finan 10%          
           else if (parseInt(awards.at(11).get('amount')) > 0) wantedSlot = 12                                                         //Lee 60%
         }                 
-        else {                                                                                                      //Extra Group --70%
+        else {                                                                                                      //Extra Group --50%
           extra = Math.random() * 100          
           console && console.log("EXTRA CASE: " + extra)
           totalE=0
@@ -208,17 +208,17 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     }
 
     Roulette.prototype.spin = function () {
-        spinId += 1;
+        spinId += 1
         wantedAngle = this.findWantedSlot()        
 
-        this.startAngle = 0;
+        this.startAngle = 0
         this.spinAngleStart = (wantedAngle) / (this.constant) + 360 * 2
-        this.totalAngle = 0;
-        this.count = 0;
-        this.spinTime = 0;
+        this.totalAngle = 0
+        this.count = 0
+        this.spinTime = 0
         this.spinTimeTotal = 100
-        this.rotateWheel();
-        this.sound.spin.play();
+        this.rotateWheel()
+        this.sound.spin.play()
     }
 
     Roulette.prototype.rotateWheel = function () {
