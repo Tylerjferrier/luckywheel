@@ -1,7 +1,13 @@
 body {
   padding-top: 40px;
   background: url("../img/p/shattered.png") repeat top right;
+  cursor: url(../img/r.png), auto;
 }
+
+#spin {
+  cursor: url(../img/r.png), auto;
+}
+
 #wheel {
   background: url("../img/wheel.png") no-repeat;
   width: 854px;
@@ -10,7 +16,7 @@ body {
     -webkit-transition: all 2s ease-in-out; 
     -moz-transition: all 2s ease-in-out; 
     -o-transition: all 2s ease-in-out; 
-    -ms-transition: all 2s ease-in-out; 
+    -ms-transition0: all 2s ease-in-out; 
     transition: all 2s ease-in-out;*/
 
 }
