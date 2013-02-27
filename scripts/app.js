@@ -90,12 +90,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     @param a backbone collection
     */
     Roulette.prototype.setAwards = function (collection) {
-      if (collection.length == 0 || localStorage.getItem('VERSION_LEVEL')!=VERSION_LEVEL) {
+      if (collection.length == 0) {
         collection.reset()
-        localStorage.clear(function () {
-          console && console.log('Clear local storage')  
-        })
-        localStorage.setItem('VERSION_LEVEL', VERSION_LEVEL)
         for (var i=0; i<this._awards.length; i++) {
           collection.create(this._awards[i])
         }        
@@ -283,7 +279,8 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
         return b + c * (tc + -3 * ts + 3 * t / d);
     }
 
-  var RewardModel = Backbone.Model.extend({
+  var RewardModel = Parse.Object.extend({
+      className: "Reward",
       initialize: function () {
           this.on('change', function (model) {
             //do sth here when model changes data
@@ -292,9 +289,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
       
       ,defaults: {
           name: 'New item',
-          quantity: 1,
+          amount: 1,
           chance: 0.2,
-          weight: 1,
+          w: 1,
           src: ''
       }
 
@@ -332,9 +329,9 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
       }
   })
 
-  var RewardCollection = Backbone.Collection.extend({
-      localStorage: new Backbone.LocalStorage("reward") // Unique name within your app.
-      ,model: RewardModel      
+  var RewardCollection = Parse.Collection.extend({
+      //localStorage: new Backbone.LocalStorage("reward") // Unique name within your app.
+      model: RewardModel      
   })
   
   var ResultModel = Backbone.Model.extend({
@@ -359,12 +356,25 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
         winners = new WinnerCollection()      
 
         Rewards = new RewardCollection
-        Rewards.fetch()
-        this.r.setAwards(Rewards)
+        
+        var query = new Parse.Query(RewardModel);
+        //query.equalTo("user", Parse.User.current());
+        Rewards.query = query;
 
-        resultView = new ResultView({model: rotatingResult})
-        rewardStockCpView = new RewardStockCpView({collection: Rewards})
-        this.render()        
+        Rewards.fetch({
+          success: function(collection) {            
+            appView.r.setAwards(Rewards)
+            resultView = new ResultView({model: rotatingResult})
+            rewardStockCpView = new RewardStockCpView({collection: Rewards})
+            appView.render()        
+          },
+          error: function(collection, error) {
+            // The collection could not be retrieved.
+            alert("Cannot initalize data. Abort")
+          }
+        })
+
+        
       },
 
       render: function () {

@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: "./scripts"
+    baseUrl: "./scripts-v0.1"
     
     // Libraries
     ,paths: {
