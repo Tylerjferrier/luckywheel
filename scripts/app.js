@@ -2,9 +2,9 @@
 So we need to draw six times. Each time we draw two arc
 */
 
-define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform', 'easing', 'bootstrap'], function ($, _, Backbone, buzz) {
+define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform', 'easing', 'bootstrap', 'parse'], function ($, _, Backbone, buzz) {
     "use strict";
-    var VERSION_LEVEL = "0.1.0.7" //major.minor.patch.update_cache_clean_number
+    var VERSION_LEVEL = "0.1.0.9" //major.minor.patch.update_cache_clean_number
     var wantedSlot, wantedAngle, spinId = 0
     
     var appView, mcView, resultView, rewardStockCpView, winnerListView, Rewards, winners
@@ -12,6 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     var rotatingResult
 
     var definedSlot = 13
+    Parse.initialize("1zzAMVXIJK6AZoxdKetSHXhXS7IVEJxOb5Vh1dqF", "VqN2jIE1EZTZ3EzHS9NLT71i4oSKI9JeEtYek3Yz");
 
     var Roulette = function () {
         this.constant = 100 - ((Math.pow(100, 4) / 4 - 1 / 4) / (Math.pow(100, 3)) - 3 * (Math.pow(100, 3) / 3 - 1 / 3) / (Math.pow(100, 2)) + 3 * (Math.pow(100, 2) / 2 - 1 / 2) / (100))
@@ -103,12 +104,13 @@ define(['jquery', 'underscore', 'backbone', 'buzz', 'localStorage',  'transform'
     }
 
     Roulette.prototype.loadResource = function () {
-        // (function () {
-        //     for (var i = 0; i <= 11; i++) {
-        //         this.avatars[i] = new Image();
-        //         this.avatars[i].src = "assets/img/gift/" + (i + 1) + ".png";
-        //     }
-        // }).call(this)      
+        (function () {
+           var avatars = []
+            for (var i = 0; i <= 13; i++) {
+                avatars[i] = new Image();
+                avatars[i].src = "assets/img/brochure/" + this._awards[i].src;
+            }
+        }).call(this)      
         this.wheelImage = new Image()
         this.wheelImage.src = "assets/img/wheel.png"
     }
